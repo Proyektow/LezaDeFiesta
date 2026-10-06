@@ -1,0 +1,19 @@
+{
+  "name": "#LezaDeFiesta - Drinking Game",
+  "short_name": "LezaFiesta",
+  "description": "Juego de previa y fiesta con Yo Nunca, Quien es más probable y modos Light, Fiesta y Hot.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#090514",
+  "theme_color": "#a855f7",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
