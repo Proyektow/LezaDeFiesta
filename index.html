@@ -16,7 +16,7 @@
 </head>
 <body data-theme="purple">
 
-  <!-- Splash Screen -->
+  <!-- Pantalla de Carga -->
   <div id="splash-screen">
     <div class="splash-box">
       <div class="splash-icon">🎉</div>
@@ -35,7 +35,10 @@
     </div>
     
     <div class="top-controls">
-      <!-- Selector Rápido de Color de Tema -->
+      <!-- Botón Novedades -->
+      <button class="btn-news-icon" id="btnOpenNews" title="Novedades de la versión">📢</button>
+
+      <!-- Selector de Color -->
       <div class="theme-palette">
         <button class="theme-dot dot-purple active" data-color="purple" title="Morado"></button>
         <button class="theme-dot dot-blue" data-color="blue" title="Azul"></button>
@@ -50,23 +53,22 @@
     </div>
   </header>
 
-  <!-- Contenedor Principal de Pantallas -->
+  <!-- Contenedor de Pantallas -->
   <main>
 
-    <!-- PANTALLA 1: Menú Principal (Lobby de Juegos) -->
+    <!-- PANTALLA 1: Inicio / Lobby -->
     <section class="screen active" id="screenHome">
       <div class="greeting-box">
         <h2>¿Qué jugamos hoy?</h2>
-        <p>Elige un juego, prepara la bebida y añade a la gente.</p>
+        <p>Más de 650 tarjetas listas al azar. Elegid modo y a disfrutar.</p>
       </div>
 
-      <!-- Cuadrícula de Modos -->
       <div class="modes-grid">
         <article class="mode-card" data-launch="yoNunca">
           <div class="mode-icon">🍺</div>
           <div class="mode-details">
             <h3>Yo Nunca</h3>
-            <p>Confesiones directas. Quien lo haya hecho, bebe un trago.</p>
+            <p>100 frases por nivel. Confesiones reales y tragos asegurados.</p>
           </div>
         </article>
 
@@ -74,7 +76,7 @@
           <div class="mode-icon">🎯</div>
           <div class="mode-details">
             <h3>¿Quién es más probable?</h3>
-            <p>A la de tres, todos señalan al culpable al mismo tiempo.</p>
+            <p>100 preguntas por nivel. Señalad al unísono a la víctima.</p>
           </div>
         </article>
 
@@ -82,7 +84,7 @@
           <div class="mode-icon">⚡</div>
           <div class="mode-details">
             <h3>La Ruleta</h3>
-            <p>Elige una víctima al azar y le impone un reto o castigo.</p>
+            <p>35 retos y prendas exprés asignadas a dedo por la app.</p>
           </div>
         </article>
 
@@ -90,17 +92,17 @@
           <div class="mode-icon">💣</div>
           <div class="mode-details">
             <h3>La Bomba</h3>
-            <p>Pasad el móvil diciendo respuestas antes de que explote.</p>
+            <p>14 temas contrarreloj. Pasad el móvil antes del BOOM.</p>
           </div>
         </article>
       </div>
 
-      <!-- Gestión de Participantes en Inicio -->
+      <!-- Cuadrilla en Inicio -->
       <div class="home-participants-box">
         <div class="participants-head">
           <div>
             <h4>Participantes</h4>
-            <span class="subtext">Para que la app asigne turnos y retos</span>
+            <span class="subtext">Turnos y retos directos</span>
           </div>
           <span class="counter-badge" id="homePlayerCounter">0 jugadores</span>
         </div>
@@ -114,13 +116,12 @@
       </div>
     </section>
 
-    <!-- PANTALLA 2: Cartas (Yo Nunca / Quién es más probable) -->
+    <!-- PANTALLA 2: Cartas (Yo Nunca / Probable) -->
     <section class="screen" id="screenCards">
-      <!-- Selector de Nivel -->
       <div class="intensity-bar">
-        <button class="btn-level" data-level="light">💧 Light</button>
-        <button class="btn-level active" data-level="fiesta">✨ Fiesta</button>
-        <button class="btn-level" data-level="hot">🔥 Hot</button>
+        <button class="btn-level" data-level="light">💧 Light (100)</button>
+        <button class="btn-level active" data-level="fiesta">✨ Fiesta (100)</button>
+        <button class="btn-level" data-level="hot">🔥 Hot (100)</button>
       </div>
 
       <div class="play-layout">
@@ -169,7 +170,7 @@
 
   </main>
 
-  <!-- Barra de Navegación Inferior -->
+  <!-- Barra Inferior -->
   <nav class="bottom-bar">
     <button class="nav-button active" data-target="screenHome">
       <span class="b-icon">🏠</span>
@@ -205,6 +206,41 @@
         <button type="submit">+</button>
       </form>
       <div class="chips-container" id="modalChipsList"></div>
+    </div>
+  </div>
+
+  <!-- Modal Pantalla de Actualizaciones (Novedades) -->
+  <div class="modal-wrapper" id="newsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.4rem;">🚀</span>
+          <div>
+            <h3 style="margin:0;">Novedades v2.0</h3>
+            <span style="font-size:0.7rem; color:var(--text-muted);">#LezaDeFiesta Actualizada</span>
+          </div>
+        </div>
+        <button class="btn-close-modal" id="btnCloseNewsX">✕</button>
+      </div>
+
+      <div class="news-body">
+        <div class="news-item">
+          <strong>🔥 +600 Frases Nuevas:</strong> 100 tarjetas únicas para cada nivel (Light, Fiesta, Hot) en Yo Nunca y Quién es más probable.
+        </div>
+        <div class="news-item">
+          <strong>🎲 Aleatoriedad Real:</strong> Las barajas se mezclan al azar desde el primer segundo. Nunca saldrán las mismas al abrir la app.
+        </div>
+        <div class="news-item">
+          <strong>⚡ Ruleta y Bomba Ampliadas:</strong> 35 penitencias directas y 14 temáticas contrarreloj.
+        </div>
+        <div class="news-item">
+          <strong>🎨 Selector de Temas:</strong> Cambia de color en vivo con los botones superiores.
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <button class="btn-news-ok" id="btnDismissNewsForever">¡Entendido, no volver a mostrar!</button>
+      </div>
     </div>
   </div>
 
