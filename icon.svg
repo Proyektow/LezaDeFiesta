@@ -1,61 +1,141 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
-    <!-- Fondo degrade profundo -->
-    <radialGradient id="bgGrad" cx="50%" cy="30%" r="75%">
-      <stop offset="0%" stop-color="#1e0b36"/>
-      <stop offset="100%" stop-color="#07020d"/>
+    <!-- Fondo oscuro contrastado -->
+    <radialGradient id="bgCanvas" cx="50%" cy="45%" r="75%">
+      <stop offset="0%" stop-color="#1e0b2b"/>
+      <stop offset="65%" stop-color="#0e0417"/>
+      <stop offset="100%" stop-color="#05010a"/>
     </radialGradient>
 
-    <!-- Gradiente neón principal -->
-    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#a855f7"/>
-      <stop offset="50%" stop-color="#ec4899"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
+    <!-- Uvas llamativas: Morado eléctrico / púrpura vibrante -->
+    <radialGradient id="electricGrape" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#d946ef"/>
+      <stop offset="45%" stop-color="#9333ea"/>
+      <stop offset="100%" stop-color="#4c0519"/>
+    </radialGradient>
+
+    <!-- Dorado solar de alto impacto para el texto -->
+    <linearGradient id="goldBright" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="25%" stop-color="#fef08a"/>
+      <stop offset="70%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
     </linearGradient>
 
-    <!-- Resplandor neón -->
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="10" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    <!-- Verde vid vivo -->
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+
+    <!-- Sombra intensa para despegar el texto del fondo -->
+    <filter id="heavyShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.95"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="1"/>
     </filter>
   </defs>
 
-  <!-- Fondo redondeado estilo app icon -->
-  <rect width="512" height="512" rx="120" fill="url(#bgGrad)"/>
-  <rect width="504" height="504" x="4" y="4" rx="116" fill="none" stroke="url(#neonGrad)" stroke-width="4" stroke-opacity="0.4"/>
+  <!-- Marco base de app -->
+  <rect width="512" height="512" rx="120" fill="url(#bgCanvas)"/>
+  <rect width="496" height="496" x="8" y="8" rx="112" fill="none" stroke="#f59e0b" stroke-width="4" stroke-opacity="0.35"/>
 
-  <!-- Destellos decorativos de fondo -->
-  <path d="M120 110 L130 130 L120 150 L110 130 Z" fill="#06b6d4" opacity="0.8"/>
-  <path d="M390 100 L398 115 L390 130 L382 115 Z" fill="#ec4899" opacity="0.8"/>
-  <circle cx="150" cy="380" r="6" fill="#a855f7" opacity="0.6"/>
-  <circle cx="360" cy="390" r="8" fill="#06b6d4" opacity="0.6"/>
+  <!-- ================= TALLO Y HOJAS SUPERIORES ================= -->
+  <g id="vine-top">
+    <!-- Tronco superior -->
+    <path d="M256 65 Q260 25 295 35" fill="none" stroke="#854d0e" stroke-width="14" stroke-linecap="round"/>
+    
+    <!-- Hoja izquierda grande -->
+    <path d="M245 75 Q160 30 130 90 Q125 145 190 145 Q245 140 245 75 Z" 
+          fill="url(#leafGrad)" opacity="0.85"/>
+    <path d="M245 75 Q160 95 130 90" fill="none" stroke="#14532d" stroke-width="3"/>
 
-  <!-- Silueta de dos copas de fiesta brindando -->
-  <g filter="url(#glow)">
-    <!-- Copa izquierda inclinada -->
-    <g transform="translate(230, 240) rotate(-18) translate(-230, -240)">
-      <path d="M170 150 L230 220 V290 H210 V305 H250 V290 H230 V220 L290 150 Z" 
-            stroke="url(#neonGrad)" stroke-width="12" stroke-linejoin="round" fill="rgba(168, 85, 247, 0.25)"/>
-      <circle cx="230" cy="180" r="10" fill="#ec4899"/>
-    </g>
-
-    <!-- Copa derecha inclinada -->
-    <g transform="translate(282, 240) rotate(18) translate(-282, -240)">
-      <path d="M222 150 L282 220 V290 H262 V305 H302 V290 H282 V220 L342 150 Z" 
-            stroke="url(#neonGrad)" stroke-width="12" stroke-linejoin="round" fill="rgba(6, 182, 212, 0.25)"/>
-      <circle cx="282" cy="180" r="10" fill="#06b6d4"/>
-    </g>
-
-    <!-- Efecto choque/brindis (Chispa central) -->
-    <path d="M256 160 L262 175 L277 181 L262 187 L256 202 L250 187 L235 181 L250 175 Z" fill="#ffffff"/>
+    <!-- Hoja derecha grande -->
+    <path d="M267 75 Q352 30 382 90 Q387 145 322 145 Q267 140 267 75 Z" 
+          fill="url(#leafGrad)" opacity="0.85"/>
+    <path d="M267 75 Q352 95 382 90" fill="none" stroke="#14532d" stroke-width="3"/>
   </g>
 
-  <!-- Tipografía del Hashtag -->
-  <text x="256" y="445" 
-        text-anchor="middle" 
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
-        font-size="44" 
-        font-weight="900" 
-        letter-spacing="2"
-        fill="url(#neonGrad)">#LezaDeFiesta</text>
+  <!-- ================= RACIMO GIGANTE QUE OCUPA TODO EL FONDO ================= -->
+  <g id="giant-grape-cluster" stroke="#09010f" stroke-width="4">
+    <!-- Nivel 1 (Arriba - Ancho) -->
+    <circle cx="160" cy="140" r="38" fill="url(#electricGrape)"/>
+    <circle cx="224" cy="130" r="40" fill="url(#electricGrape)"/>
+    <circle cx="288" cy="130" r="40" fill="url(#electricGrape)"/>
+    <circle cx="352" cy="140" r="38" fill="url(#electricGrape)"/>
+
+    <!-- Nivel 2 -->
+    <circle cx="125" cy="195" r="40" fill="url(#electricGrape)"/>
+    <circle cx="190" cy="185" r="42" fill="url(#electricGrape)"/>
+    <circle cx="256" cy="180" r="44" fill="url(#electricGrape)"/>
+    <circle cx="322" cy="185" r="42" fill="url(#electricGrape)"/>
+    <circle cx="387" cy="195" r="40" fill="url(#electricGrape)"/>
+
+    <!-- Nivel 3 (Zona media) -->
+    <circle cx="140" cy="255" r="42" fill="url(#electricGrape)"/>
+    <circle cx="205" cy="245" r="44" fill="url(#electricGrape)"/>
+    <circle cx="270" cy="245" r="44" fill="url(#electricGrape)"/>
+    <circle cx="335" cy="250" r="43" fill="url(#electricGrape)"/>
+    <circle cx="372" cy="265" r="38" fill="url(#electricGrape)"/>
+
+    <!-- Nivel 4 -->
+    <circle cx="165" cy="315" r="42" fill="url(#electricGrape)"/>
+    <circle cx="228" cy="310" r="44" fill="url(#electricGrape)"/>
+    <circle cx="292" cy="310" r="44" fill="url(#electricGrape)"/>
+    <circle cx="350" cy="320" r="40" fill="url(#electricGrape)"/>
+
+    <!-- Nivel 5 -->
+    <circle cx="190" cy="375" r="40" fill="url(#electricGrape)"/>
+    <circle cx="256" cy="370" r="43" fill="url(#electricGrape)"/>
+    <circle cx="322" cy="375" r="40" fill="url(#electricGrape)"/>
+
+    <!-- Nivel 6 -->
+    <circle cx="220" cy="428" r="36" fill="url(#electricGrape)"/>
+    <circle cx="288" cy="428" r="36" fill="url(#electricGrape)"/>
+
+    <!-- Punta final del racimo -->
+    <circle cx="256" cy="470" r="30" fill="url(#electricGrape)"/>
+  </g>
+
+  <!-- Brillos esféricos en uvas clave para dar volumen -->
+  <g fill="#ffffff" opacity="0.35">
+    <ellipse cx="215" cy="115" rx="10" ry="6" transform="rotate(-30 215 115)"/>
+    <ellipse cx="275" cy="115" rx="10" ry="6" transform="rotate(-30 275 115)"/>
+    <ellipse cx="178" cy="170" rx="11" ry="7" transform="rotate(-30 178 170)"/>
+    <ellipse cx="310" cy="170" rx="11" ry="7" transform="rotate(-30 310 170)"/>
+    <ellipse cx="242" cy="352" rx="11" ry="7" transform="rotate(-30 242 352)"/>
+    <ellipse cx="245" cy="456" rx="8" ry="5" transform="rotate(-30 245 456)"/>
+  </g>
+
+  <!-- ================= TEXTO CENTRAL GIGANTE REMARCADO ================= -->
+  <g id="brand-text" filter="url(#heavyShadow)">
+    
+    <!-- Placa de contraste tras el texto central para asegurar legibilidad en cualquier pantalla -->
+    <rect x="24" y="196" width="464" height="136" rx="28" 
+          fill="#0a020f" fill-opacity="0.88" 
+          stroke="#f59e0b" stroke-width="3" stroke-opacity="0.6"/>
+
+    <!-- "LEZA" -->
+    <text x="256" y="258" 
+          text-anchor="middle" 
+          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Impact', 'Segoe UI Black', Roboto, sans-serif" 
+          font-size="64" 
+          font-weight="950" 
+          letter-spacing="5"
+          fill="url(#goldBright)"
+          stroke="#000000"
+          stroke-width="5"
+          paint-order="stroke fill">LEZA</text>
+
+    <!-- "DE FIESTA" -->
+    <text x="256" y="312" 
+          text-anchor="middle" 
+          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Impact', 'Segoe UI Black', Roboto, sans-serif" 
+          font-size="36" 
+          font-weight="900" 
+          letter-spacing="4"
+          fill="#ffffff"
+          stroke="#000000"
+          stroke-width="4"
+          paint-order="stroke fill">DE FIESTA</text>
+  </g>
 </svg>
