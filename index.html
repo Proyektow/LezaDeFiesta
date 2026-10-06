@@ -16,7 +16,7 @@
 </head>
 <body data-theme="purple">
 
-  <!-- Pantalla de Carga -->
+  <!-- Splash Screen -->
   <div id="splash-screen">
     <div class="splash-box">
       <div class="splash-icon">🎉</div>
@@ -35,8 +35,8 @@
     </div>
     
     <div class="top-controls">
-      <!-- Botón Novedades -->
-      <button class="btn-news-icon" id="btnOpenNews" title="Novedades de la versión">📢</button>
+      <!-- Botón Instalar PWA (Oculto por defecto, desaparece tras instalar) -->
+      <button class="btn-install" id="btnInstallApp" style="display: none;">📲 Instalar</button>
 
       <!-- Selector de Color -->
       <div class="theme-palette">
@@ -56,11 +56,11 @@
   <!-- Contenedor de Pantallas -->
   <main>
 
-    <!-- PANTALLA 1: Inicio / Lobby -->
+    <!-- PANTALLA 1: Inicio / Menú de Juegos -->
     <section class="screen active" id="screenHome">
       <div class="greeting-box">
         <h2>¿Qué jugamos hoy?</h2>
-        <p>Más de 650 tarjetas listas al azar. Elegid modo y a disfrutar.</p>
+        <p>Elige un modo y prepara las bebidas.</p>
       </div>
 
       <div class="modes-grid">
@@ -68,7 +68,7 @@
           <div class="mode-icon">🍺</div>
           <div class="mode-details">
             <h3>Yo Nunca</h3>
-            <p>100 frases por nivel. Confesiones reales y tragos asegurados.</p>
+            <p>100 frases por nivel. Desliza para pasar de carta.</p>
           </div>
         </article>
 
@@ -76,15 +76,39 @@
           <div class="mode-icon">🎯</div>
           <div class="mode-details">
             <h3>¿Quién es más probable?</h3>
-            <p>100 preguntas por nivel. Señalad al unísono a la víctima.</p>
+            <p>Señala a la víctima a la de tres.</p>
           </div>
         </article>
 
-        <article class="mode-card" data-launch="roulette">
-          <div class="mode-icon">⚡</div>
+        <article class="mode-card" data-launch="prefieres">
+          <div class="mode-icon">⚖️</div>
           <div class="mode-details">
-            <h3>La Ruleta</h3>
-            <p>35 retos y prendas exprés asignadas a dedo por la app.</p>
+            <h3>¿Qué Prefieres?</h3>
+            <p>Dilemas incómodos. La minoría bebe.</p>
+          </div>
+        </article>
+
+        <article class="mode-card" data-launch="cultura3s">
+          <div class="mode-icon">⏱️</div>
+          <div class="mode-details">
+            <h3>Cultura Rápida (3s)</h3>
+            <p>3 respuestas en 3 segundos o trago al canto.</p>
+          </div>
+        </article>
+
+        <article class="mode-card" data-launch="verdadReto">
+          <div class="mode-icon">🎭</div>
+          <div class="mode-details">
+            <h3>Verdad o Reto</h3>
+            <p>Confesión o penitencia física obligatoria.</p>
+          </div>
+        </article>
+
+        <article class="mode-card" data-launch="mimica">
+          <div class="mode-icon">🤫</div>
+          <div class="mode-details">
+            <h3>Mímica Exprés</h3>
+            <p>Pasa el móvil, lee la palabra y 45s de actuación.</p>
           </div>
         </article>
 
@@ -92,7 +116,7 @@
           <div class="mode-icon">💣</div>
           <div class="mode-details">
             <h3>La Bomba</h3>
-            <p>14 temas contrarreloj. Pasad el móvil antes del BOOM.</p>
+            <p>Pasa el móvil rápido antes de que estalle.</p>
           </div>
         </article>
       </div>
@@ -116,47 +140,124 @@
       </div>
     </section>
 
-    <!-- PANTALLA 2: Cartas (Yo Nunca / Probable) -->
+    <!-- PANTALLA 2: Cartas Deslizables (Yo Nunca / Probable) -->
     <section class="screen" id="screenCards">
       <div class="intensity-bar">
-        <button class="btn-level" data-level="light">💧 Light (100)</button>
-        <button class="btn-level active" data-level="fiesta">✨ Fiesta (100)</button>
-        <button class="btn-level" data-level="hot">🔥 Hot (100)</button>
+        <button class="btn-level" data-level="light">💧 Light</button>
+        <button class="btn-level active" data-level="fiesta">✨ Fiesta</button>
+        <button class="btn-level" data-level="hot">🔥 Hot</button>
       </div>
 
       <div class="play-layout">
-        <div class="game-card" id="mainGameCard">
-          <span class="card-badge" id="cardCategoryBadge">YO NUNCA</span>
-          <div class="card-text-wrapper">
-            <p class="question-prefix" id="cardPrefixText"></p>
-            <p class="question-text" id="cardMainText">Cargando frase...</p>
+        <!-- Contenedor Swipeable -->
+        <div class="swipe-container" id="swipeContainer">
+          <div class="game-card" id="mainGameCard">
+            <div class="card-top-row">
+              <span class="card-badge" id="cardCategoryBadge">YO NUNCA</span>
+              <span class="sip-pill" id="cardSipPill">1 Trago</span>
+            </div>
+            <div class="card-text-wrapper">
+              <p class="question-prefix" id="cardPrefixText"></p>
+              <p class="question-text" id="cardMainText">Cargando...</p>
+            </div>
+            <p class="card-rule" id="cardRuleNote">Desliza hacia los lados o pulsa abajo</p>
           </div>
-          <p class="card-rule" id="cardRuleNote">Quien lo haya hecho, bebe.</p>
         </div>
-        <button class="btn-main-action" id="btnNextCard">Siguiente Tarjeta</button>
+        <button class="btn-main-action" id="btnNextCard">Siguiente Tarjeta ➔</button>
       </div>
     </section>
 
-    <!-- PANTALLA 3: La Ruleta -->
-    <section class="screen" id="screenRoulette">
+    <!-- PANTALLA 3: ¿Qué Prefieres? -->
+    <section class="screen" id="screenPrefieres">
       <div class="play-layout">
-        <div class="game-card" id="roulettePlayCard">
-          <span class="card-badge">⚡ RETO ASIGNADO</span>
-          <div class="card-text-wrapper">
-            <span class="sub-label">Le toca a:</span>
-            <div class="victim-display" id="chosenVictim">¿Quién será?</div>
-            <p class="question-text" id="chosenTask">Gira la ruleta para elegir a la víctima.</p>
+        <div class="game-card no-swipe">
+          <span class="card-badge">⚖️️ ¿QUÉ PREFIERES?</span>
+          <div class="dilemma-box">
+            <button class="dilemma-btn" id="dilemmaOptA">Opción A</button>
+            <div class="dilemma-divider">O BIEN</div>
+            <button class="dilemma-btn" id="dilemmaOptB">Opción B</button>
           </div>
-          <p class="card-rule">Cumple el reto o bebe 2 tragos.</p>
+          <p class="card-rule">Votad todos a la vez. Quien quede en minoría, bebe.</p>
         </div>
-        <button class="btn-main-action" id="btnSpin">Girar Ruleta</button>
+        <button class="btn-main-action" id="btnNextPrefieres">Siguiente Dilema ➔</button>
       </div>
     </section>
 
-    <!-- PANTALLA 4: La Bomba -->
+    <!-- PANTALLA 4: Cultura Rápida (3 Segundos) -->
+    <section class="screen" id="screenCultura">
+      <div class="play-layout">
+        <div class="game-card no-swipe" id="culturaCard">
+          <span class="card-badge">⏱️ CULTURA RÁPIDA</span>
+          <div class="card-text-wrapper">
+            <span class="sub-label">LE TOCA A:</span>
+            <div class="victim-display" id="culturaPlayer">Alguien</div>
+            <p class="question-text" id="culturaPrompt">Pulsa iniciar para arrancar los 3 segundos.</p>
+          </div>
+          <div class="timer-display-big" id="culturaTimer">3</div>
+        </div>
+        <button class="btn-main-action" id="btnStartCultura">¡Arrancar 3 Segundos!</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 5: Verdad o Reto -->
+    <section class="screen" id="screenVerdadReto">
+      <div class="play-layout">
+        <div class="game-card no-swipe">
+          <span class="card-badge">🎭 VERDAD O RETO</span>
+          <div class="card-text-wrapper">
+            <span class="sub-label">JUGADOR SELECCIONADO:</span>
+            <div class="victim-display" id="vrPlayerName">Alguien</div>
+            <p class="question-text" id="vrResultText">Elige si quieres confesar una verdad o afrontar un reto.</p>
+          </div>
+          <div class="vr-button-group" id="vrControls">
+            <button class="btn-vr btn-truth" id="btnChooseTruth">😇 Verdad</button>
+            <button class="btn-vr btn-dare" id="btnChooseDare">😈 Reto</button>
+          </div>
+        </div>
+        <button class="btn-main-action" id="btnNextVR">Siguiente Jugador ➔</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 6: Mímica Exprés (10s paso -> 12s lectura -> 45s mímica) -->
+    <section class="screen" id="screenMimica">
+      <div class="play-layout">
+        <div class="game-card no-swipe">
+          <span class="card-badge">🤫 MÍMICA EXPRÉS</span>
+
+          <!-- Fase 1: Pasar el móvil (10s o botón Recibido) -->
+          <div class="mimica-step" id="mimicaStepPass">
+            <span class="sub-label">PASA EL MÓVIL EN PRIVADO A:</span>
+            <div class="victim-display" id="mimicaActorName">Actor</div>
+            <p class="question-text">Pásale el teléfono antes de que se acabe el tiempo.</p>
+            <div class="timer-display-medium" id="timerPassDisplay">10s</div>
+            <button class="btn-received" id="btnActorReceived">¡Móvil Recibido!</button>
+          </div>
+
+          <!-- Fase 2: Memorizar la palabra (12s en privado) -->
+          <div class="mimica-step" id="mimicaStepRead" style="display: none;">
+            <span class="sub-label">MEMORIZA EN SECRETO (12s):</span>
+            <div class="secret-word-box" id="secretWordDisplay">Palabra</div>
+            <p class="card-rule">No hables ni hagas sonidos. El tiempo corre...</p>
+            <div class="timer-display-medium" id="timerReadDisplay">12s</div>
+          </div>
+
+          <!-- Fase 3: Actuación activa (45s con botón Acertado) -->
+          <div class="mimica-step" id="mimicaStepAct" style="display: none;">
+            <span class="sub-label">¡ACTÚA YA! (MÁX 45s):</span>
+            <div class="timer-display-big timer-active" id="timerActDisplay">45</div>
+            <p class="card-rule">Sin palabras ni sonidos. ¡Que adivinen!</p>
+            <button class="btn-success-guessed" id="btnMimicaGuessed">🎉 ¡Acertado!</button>
+          </div>
+
+        </div>
+        <button class="btn-main-action" id="btnNextMimicaRound">Siguiente Ronda ➔</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 7: La Bomba -->
     <section class="screen" id="screenBomb">
       <div class="play-layout">
-        <div class="game-card" id="bombPlayCard">
+        <div class="game-card no-swipe" id="bombPlayCard">
           <div class="bomb-icon" id="bombEmoji">💣</div>
           <div class="card-text-wrapper">
             <span class="sub-label">TEMA DE LA RONDA:</span>
@@ -184,17 +285,49 @@
       <span class="b-icon">🎯</span>
       <span class="b-label">Probable</span>
     </button>
-    <button class="nav-button" data-target="screenRoulette">
-      <span class="b-icon">⚡</span>
-      <span class="b-label">Ruleta</span>
+    <button class="nav-button" data-target="screenPrefieres">
+      <span class="b-icon">⚖️</span>
+      <span class="b-label">Prefieres</span>
     </button>
-    <button class="nav-button" data-target="screenBomb">
-      <span class="b-icon">💣</span>
-      <span class="b-label">Bomba</span>
+    <button class="nav-button" data-target="screenCultura">
+      <span class="b-icon">⏱️</span>
+      <span class="b-label">Cultura 3s</span>
+    </button>
+    <button class="nav-button" data-target="screenMimica">
+      <span class="b-icon">🤫</span>
+      <span class="b-label">Mímica</span>
     </button>
   </nav>
 
-  <!-- Modal Global de Participantes -->
+  <!-- MODAL: Ruleta Sorpresa (Evento aleatorio cada X cartas) -->
+  <div class="modal-wrapper" id="surpriseModal">
+    <div class="modal-card surprise-card">
+      <span class="card-badge" style="background:#f59e0b; color:#000;">⚡ ¡RULETA DE LA SUERTE!</span>
+      <h3 style="margin-top:10px;">Gira la ruleta sorpresa</h3>
+      <div class="roulette-wheel-container">
+        <div class="wheel-pointer">▼</div>
+        <div class="wheel-disc" id="wheelDisc">
+          <div class="wheel-center">🎯</div>
+        </div>
+      </div>
+      <div class="surprise-result-text" id="surpriseResultText">Pulsa girar para ver el castigo del grupo.</div>
+      <button class="btn-main-action" id="btnSpinSurpriseWheel">🎲 Girar Ruleta</button>
+      <button class="btn-close-link" id="btnCloseSurpriseModal">Continuar Partida</button>
+    </div>
+  </div>
+
+  <!-- MODAL: Reglas Malditas (Aparece sorpresivamente) -->
+  <div class="modal-wrapper" id="curseModal">
+    <div class="modal-card curse-card">
+      <span class="card-badge" style="background:#ef4444; color:#fff;">💀 ¡REGLA MALDITA ACTIVADA!</span>
+      <p class="curse-turns" id="curseTurnsText">Durante las próximas 5 tarjetas:</p>
+      <h3 class="curse-desc" id="curseDescText">Descripción de la regla...</h3>
+      <p class="card-rule">¡1 trago cada vez que alguien la rompa!</p>
+      <button class="btn-main-action" id="btnCloseCurseModal" style="background:#ef4444;">¡Aceptado!</button>
+    </div>
+  </div>
+
+  <!-- MODAL: Participantes -->
   <div class="modal-wrapper" id="playersModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -206,41 +339,6 @@
         <button type="submit">+</button>
       </form>
       <div class="chips-container" id="modalChipsList"></div>
-    </div>
-  </div>
-
-  <!-- Modal Pantalla de Actualizaciones (Novedades) -->
-  <div class="modal-wrapper" id="newsModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:1.4rem;">🚀</span>
-          <div>
-            <h3 style="margin:0;">Novedades v2.0</h3>
-            <span style="font-size:0.7rem; color:var(--text-muted);">#LezaDeFiesta Actualizada</span>
-          </div>
-        </div>
-        <button class="btn-close-modal" id="btnCloseNewsX">✕</button>
-      </div>
-
-      <div class="news-body">
-        <div class="news-item">
-          <strong>🔥 +600 Frases Nuevas:</strong> 100 tarjetas únicas para cada nivel (Light, Fiesta, Hot) en Yo Nunca y Quién es más probable.
-        </div>
-        <div class="news-item">
-          <strong>🎲 Aleatoriedad Real:</strong> Las barajas se mezclan al azar desde el primer segundo. Nunca saldrán las mismas al abrir la app.
-        </div>
-        <div class="news-item">
-          <strong>⚡ Ruleta y Bomba Ampliadas:</strong> 35 penitencias directas y 14 temáticas contrarreloj.
-        </div>
-        <div class="news-item">
-          <strong>🎨 Selector de Temas:</strong> Cambia de color en vivo con los botones superiores.
-        </div>
-      </div>
-
-      <div class="news-footer">
-        <button class="btn-news-ok" id="btnDismissNewsForever">¡Entendido, no volver a mostrar!</button>
-      </div>
     </div>
   </div>
 
