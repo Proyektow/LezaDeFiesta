@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#090514">
+  <meta name="theme-color" content="#16080e">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="#LezaDeFiesta">
-  <title>#LezaDeFiesta</title>
+  <title>#LezaDeFiesta - Rioja Alavesa Edition</title>
 
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -16,111 +16,204 @@
 </head>
 <body>
 
-  <!-- Pantalla de Carga (Splash Screen) -->
+  <!-- Splash Screen Temático de Leza -->
   <div id="splash-screen">
-    <div class="splash-content">
-      <div class="splash-badge">🎉 #LezaDeFiesta</div>
-      <div class="loader-bar">
-        <div class="loader-progress"></div>
+    <div class="splash-card">
+      <div class="splash-church-icon">
+        <!-- Silueta inspirada en torre de iglesia y racimo de uvas -->
+        <svg viewBox="0 0 100 100" fill="none" class="heritage-svg">
+          <path d="M45 15 L50 7 L55 15 V35 H45 Z" fill="#d4af37"/>
+          <path d="M40 35 H60 V70 H40 Z" fill="#8b263e"/>
+          <circle cx="50" cy="50" r="5" fill="#f5eedc"/>
+          <path d="M30 70 L50 60 L70 70 V88 H30 Z" fill="#5c1929"/>
+          <!-- Uvas en la base -->
+          <circle cx="43" cy="86" r="4" fill="#a63a50"/>
+          <circle cx="50" cy="86" r="4" fill="#a63a50"/>
+          <circle cx="57" cy="86" r="4" fill="#a63a50"/>
+          <circle cx="46" cy="92" r="4" fill="#8b263e"/>
+          <circle cx="54" cy="92" r="4" fill="#8b263e"/>
+        </svg>
       </div>
-      <p class="splash-subtitle">Preparando la fiesta...</p>
+      <h1 class="splash-title">#LezaDeFiesta</h1>
+      <p class="splash-sub">Bodega, Risas & Tragos • Rioja Alavesa</p>
+      <div class="wine-loader">
+        <div class="wine-fill"></div>
+      </div>
     </div>
   </div>
 
-  <!-- Encabezado -->
+  <!-- Encabezado Fijo -->
   <header>
-    <div class="brand">
-      <span class="brand-hashtag">#LezaDeFiesta</span>
+    <div class="brand" id="brandHomeBtn">
+      <span class="brand-crest">🍷</span>
+      <div class="brand-names">
+        <span class="brand-hashtag">#LezaDeFiesta</span>
+        <span class="brand-loc">Leza • Rioja Alavesa</span>
+      </div>
     </div>
-    <button class="btn-players-header" id="btnOpenModal">
+    <button class="btn-top-players" id="btnOpenModal">
       <span>👥</span>
       <span id="playerBadgeCount">0</span>
     </button>
   </header>
 
-  <!-- Filtro de Intensidad (Solo activo en Yo Nunca y Quién es más probable) -->
-  <div class="intensity-bar" id="intensityBar">
-    <button class="btn-level" data-level="light">💧 Light</button>
-    <button class="btn-level active-fiesta" data-level="fiesta">✨ Fiesta</button>
-    <button class="btn-level" data-level="hot">🔥 Hot</button>
-  </div>
-
-  <!-- Contenedor de Pantallas del Juego -->
+  <!-- Contenedor Principal -->
   <main>
-    
-    <!-- MODO 1 & 2: Cartas (Yo Nunca / Quién es más probable) -->
-    <section class="game-view active" id="viewCards">
-      <div class="card" id="mainCard">
-        <div class="card-badge" id="cardBadge">MODO</div>
-        <div class="card-body">
-          <p class="card-prefix" id="cardPrefix"></p>
-          <p class="card-text" id="cardText">Cargando...</p>
-        </div>
-        <div class="card-footer" id="cardFooter">Toca para siguiente</div>
+
+    <!-- PANTALLA 1: Menú Principal (Lobby de Juegos & Registro) -->
+    <section class="screen active" id="screenHome">
+      <div class="welcome-box">
+        <h2>¿Qué jugamos hoy en Leza?</h2>
+        <p>Elegid modo, servid las copas y preparad las anécdotas.</p>
       </div>
-      <button class="btn-action" id="btnNextCard">Siguiente Tarjeta</button>
+
+      <!-- Cuadrícula de Modos -->
+      <div class="modes-grid">
+        <article class="mode-card" data-launch="yoNunca">
+          <div class="mode-icon-box">🍷</div>
+          <div class="mode-info">
+            <h3>Yo Nunca</h3>
+            <p>Confesiones clásicas. Quien lo haya hecho, trago de crianza.</p>
+          </div>
+        </article>
+
+        <article class="mode-card" data-launch="probable">
+          <div class="mode-icon-box">🎯</div>
+          <div class="mode-info">
+            <h3>¿Quién es más probable?</h3>
+            <p>A la de tres, señalar a la víctima sin piedad.</p>
+          </div>
+        </article>
+
+        <article class="mode-card" data-launch="roulette">
+          <div class="mode-icon-box">⛪</div>
+          <div class="mode-info">
+            <h3>La Ruleta de San Martín</h3>
+            <p>El santo señala a uno con un reto o penitencia exprés.</p>
+          </div>
+        </article>
+
+        <article class="mode-card" data-launch="bomb">
+          <div class="mode-icon-box">⏳</div>
+          <div class="mode-info">
+            <h3>La Barrica Explosiva</h3>
+            <p>Pasad el móvil rápido diciendo respuestas antes de que explote.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Panel Rápido de Participantes en Inicio -->
+      <div class="home-players-card">
+        <div class="home-players-header">
+          <div>
+            <h4>Cuadrilla en la mesa</h4>
+            <span class="subtext">Imprescindible para que la app os mencione</span>
+          </div>
+          <span class="counter-pill" id="homePlayerCounter">0 jugadores</span>
+        </div>
+
+        <form class="home-player-form" id="formHomePlayer">
+          <input type="text" id="inputHomePlayer" placeholder="Añadir a otro amigo..." maxlength="18">
+          <button type="submit">Añadir</button>
+        </form>
+
+        <div class="home-chips-container" id="homeChipsContainer"></div>
+      </div>
     </section>
 
-    <!-- MODO 3: Ruleta / Reto Exprés -->
-    <section class="game-view" id="viewRoulette">
-      <div class="card card-roulette" id="rouletteCard">
-        <div class="card-badge roulette-badge">⚡ RETO EXPRÉS</div>
-        <div class="card-body">
-          <div class="chosen-player" id="chosenPlayerName">¿Quién será?</div>
-          <p class="card-text" id="rouletteTask">Pulsa girar para elegir a una víctima y su reto.</p>
-        </div>
-        <div class="card-footer">Reto directo o penitencia</div>
+    <!-- PANTALLA 2: Juego de Cartas (Yo Nunca / Quién es más probable) -->
+    <section class="screen" id="screenCards">
+      <!-- Selector de Intensidad -->
+      <div class="vintage-level-bar">
+        <button class="btn-vintage-level" data-level="light">Cosechero (Light)</button>
+        <button class="btn-vintage-level active" data-level="fiesta">Crianza (Fiesta)</button>
+        <button class="btn-vintage-level" data-level="hot">Reserva 🔥 (Hot)</button>
       </div>
-      <button class="btn-action btn-roulette" id="btnSpinRoulette">🎲 Girar Ruleta</button>
+
+      <div class="game-play-area">
+        <div class="wine-card" id="mainGameCard">
+          <div class="card-ornament top">❖</div>
+          <span class="wine-badge" id="cardCategoryBadge">YO NUNCA</span>
+          <div class="card-text-wrapper">
+            <p class="question-prefix" id="cardPrefixText"></p>
+            <p class="question-text" id="cardMainText">Cargando...</p>
+          </div>
+          <p class="instruction-note" id="cardRuleNote">Quien lo haya hecho, bebe.</p>
+          <div class="card-ornament bottom">❖</div>
+        </div>
+        <button class="btn-wood-action" id="btnNextCard">Siguiente Tarjeta</button>
+      </div>
     </section>
 
-    <!-- MODO 4: La Bomba -->
-    <section class="game-view" id="viewBomb">
-      <div class="card card-bomb" id="bombCard">
-        <div class="bomb-visual" id="bombVisual">💣</div>
-        <div class="card-body">
-          <p class="bomb-topic-prefix">TEMA DE LA RONDA:</p>
-          <p class="card-text" id="bombTopic">Pulsa Activar Bomba para comenzar</p>
+    <!-- PANTALLA 3: La Ruleta / Reto Exprés -->
+    <section class="screen" id="screenRoulette">
+      <div class="game-play-area">
+        <div class="wine-card roulette-theme" id="roulettePlayCard">
+          <span class="wine-badge badge-gold">PENITENCIA DEL PUEBLO</span>
+          <div class="card-text-wrapper">
+            <span class="victim-label">Le ha tocado a:</span>
+            <div class="victim-name" id="chosenVictim">¿Quién será?</div>
+            <p class="question-text" id="chosenTask">Gira la barrica para asignar un culpable.</p>
+          </div>
+          <p class="instruction-note">Si se niega, doble trago.</p>
         </div>
-        <div class="card-footer" id="bombStatus">Pasad el móvil rápido diciendo una palabra</div>
+        <button class="btn-wood-action btn-gold" id="btnSpin">Girar Ruleta</button>
       </div>
-      <button class="btn-action btn-bomb" id="btnStartBomb">💣 Activar Bomba</button>
+    </section>
+
+    <!-- PANTALLA 4: La Bomba / Barrica -->
+    <section class="screen" id="screenBomb">
+      <div class="game-play-area">
+        <div class="wine-card bomb-theme" id="bombPlayCard">
+          <div class="barrel-visual" id="barrelEmoji">🪵</div>
+          <div class="card-text-wrapper">
+            <span class="victim-label">TEMÁTICA DE LA RONDA:</span>
+            <p class="question-text" id="bombSubject">Pulsa encender mecha para empezar.</p>
+          </div>
+          <p class="instruction-note" id="bombFootnote">Decid una palabra por turno y pasad el móvil.</p>
+        </div>
+        <button class="btn-wood-action btn-ember" id="btnTriggerBomb">Prender Mecha</button>
+      </div>
     </section>
 
   </main>
 
-  <!-- Barra de Navegación Inferior -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" data-view="yoNunca">
-      <span class="nav-icon">🍺</span>
-      <span class="nav-label">Yo Nunca</span>
+  <!-- Barra Inferior de Navegación -->
+  <nav class="stone-nav" id="bottomNavBar">
+    <button class="stone-item active" data-target="screenHome">
+      <span class="s-icon">🏛️</span>
+      <span class="s-label">Inicio</span>
     </button>
-    <button class="nav-item" data-view="probable">
-      <span class="nav-icon">🎯</span>
-      <span class="nav-label">Probable</span>
+    <button class="stone-item" data-target="screenCards" data-mode="yoNunca">
+      <span class="s-icon">🍷</span>
+      <span class="s-label">Yo Nunca</span>
     </button>
-    <button class="nav-item" data-view="roulette">
-      <span class="nav-icon">⚡</span>
-      <span class="nav-label">Ruleta</span>
+    <button class="stone-item" data-target="screenCards" data-mode="probable">
+      <span class="s-icon">🎯</span>
+      <span class="s-label">Probable</span>
     </button>
-    <button class="nav-item" data-view="bomb">
-      <span class="nav-icon">💣</span>
-      <span class="nav-label">La Bomba</span>
+    <button class="stone-item" data-target="screenRoulette">
+      <span class="s-icon">⛪</span>
+      <span class="s-label">Ruleta</span>
+    </button>
+    <button class="stone-item" data-target="screenBomb">
+      <span class="s-icon">⏳</span>
+      <span class="s-label">Bomba</span>
     </button>
   </nav>
 
-  <!-- Modal de Jugadores -->
-  <div class="modal-overlay" id="playerModal">
-    <div class="modal-window">
-      <div class="modal-top">
-        <h3>Participantes de la fiesta</h3>
-        <button class="btn-close" id="btnCloseModal">✕</button>
+  <!-- Modal Global de Cuadrilla (Accesible desde el botón superior) -->
+  <div class="modal-backdrop" id="playersModal">
+    <div class="wood-modal">
+      <div class="modal-header-styled">
+        <h3>Cuadrilla en Leza</h3>
+        <button class="btn-close-wood" id="btnCloseModal">✕</button>
       </div>
-      <form class="player-input-group" id="formAddPlayer">
-        <input type="text" id="inputPlayerName" placeholder="Escribe un nombre..." maxlength="18" required autocomplete="off">
+      <form class="modal-form-row" id="formModalPlayer">
+        <input type="text" id="inputModalPlayer" placeholder="Nombre del amigo..." maxlength="18" required>
         <button type="submit">+</button>
       </form>
-      <div class="players-list-scroll" id="playersContainer"></div>
+      <div class="modal-chips-list" id="modalChipsList"></div>
     </div>
   </div>
 
