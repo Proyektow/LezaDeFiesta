@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#090514">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="#LezaDeFiesta">
+  <title>#LezaDeFiesta - Drinking Game</title>
+
+  <!-- PWA Manifest incrustado directamente -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"%23LezaDeFiesta","short_name":"LezaFiesta","start_url":".","display":"standalone","background_color":"%23090514","theme_color":"%239333ea","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2725%27 fill=%27%23090514%27/%3E%3Ctext y=%2765%27 font-size=%2755%27 x=%2722%27%3E%F0%9F%8D%BB%3C/text%3E%3C/svg%3E","sizes":"192x192 512x512","type":"image/svg+xml"}]}'>
+
+  <style>
+    :root {
+      --bg: #090514;
+      --card-bg: rgba(26, 16, 48, 0.85);
+      --primary: #a855f7;
+      --primary-glow: rgba(168, 85, 247, 0.45);
+      --cyan: #06b6d4;
+      --pink: #ec4899;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(147, 51, 234, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(236, 72, 153, 0.18) 0%, transparent 45%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* PANTALLA DE CARGA (SPLASH SCREEN) */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #1b0a33 0%, #06020c 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+    }
+
+    .splash-logo {
+      width: 140px;
+      height: 140px;
+      margin-bottom: 24px;
+      filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.6));
+      animation: pulseLogo 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseLogo {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.5)); }
+      50% { transform: scale(1.06); filter: drop-shadow(0 0 35px rgba(236, 72, 153, 0.8)); }
+    }
+
+    .splash-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+      margin-bottom: 8px;
+    }
+
+    .splash-sub {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 40px;
+    }
+
+    .loader-bar {
+      width: 180px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .loader-progress {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #a855f7, #ec4899, #06b6d4);
+      animation: loadingAnim 1.8s ease forwards;
+    }
+
+    @keyframes loadingAnim {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    header {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(9, 5, 20, 0.6);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #c084fc, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn-players {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* SELECTOR DE MODO */
+    .nav-container {
+      padding: 14px 16px 6px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-game {
+      flex: 1;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-game.active {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.25));
+      border-color: rgba(168, 85, 247, 0.6);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.25);
+    }
+
+    /* SELECTOR DE INTENSIDAD */
+    .level-container {
+      padding: 6px 16px 14px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-level {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.03);
+      color: #64748b;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-level.active-light {
+      background: rgba(6, 182, 212, 0.2);
+      border-color: var(--cyan);
+      color: #38bdf8;
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+    }
+    .btn-level.active-fiesta {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: var(--primary);
+      color: #d8b4fe;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+    }
+    .btn-level.active-hot {
+      background: rgba(236, 72, 153, 0.2);
+      border-color: var(--pink);
+      color: #f472b6;
+      box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+    }
+
+    /* TARJETA DE JUEGO */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 16px 20px 30px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      min-height: 270px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-radius: 28px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      border: 2px solid var(--primary);
+      box-shadow: 0 15px 35px -10px var(--primary-glow);
+      transition: transform 0.15s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .card:active {
+      transform: scale(0.97);
+    }
+
+    .card-badge {
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--primary);
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card-body {
+      margin: 24px 0;
+    }
+
+    .card-prefix {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card-text {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1.45;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-footer {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-next {
+      margin-top: 24px;
+      width: 100%;
+      max-width: 420px;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--pink));
+      color: #fff;
+      border: none;
+      border-radius: 18px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 25px -5px var(--primary-glow);
+      transition: transform 0.15s ease, filter 0.2s ease;
+    }
+
+    .btn-next:active {
+      transform: scale(0.97);
+      filter: brightness(1.1);
+    }
+
+    /* MODAL DE PARTICIPANTES */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 360px;
+      background: #150d27;
+      border-radius: 24px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-head h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .btn-close-modal {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .player-form {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .player-form input {
+      flex: 1;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .player-form button {
+      padding: 12px 16px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .player-list {
+      max-height: 220px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .player-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .btn-del {
+      background: none;
+      border: none;
+      color: #f43f5e;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA DE CARGA CON IMAGEN Y HASHTAG -->
+  <div id="splash-screen">
+    <!-- SVG Vectorial integrado como imagen oficial -->
+    <svg class="splash-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradNeon" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#a855f7"/>
+          <stop offset="50%" stop-color="#ec4899"/>
+          <stop offset="100%" stop-color="#06b6d4"/>
+        </linearGradient>
+      </defs>
+      <rect width="200" height="200" rx="50" fill="#140a26"/>
+      <path d="M60 65 L95 105 V145 H105 V105 L140 65 H60 Z" stroke="url(#gradNeon)" stroke-width="8" stroke-linejoin="round" fill="rgba(168,85,247,0.15)"/>
+      <path d="M80 145 H120" stroke="url(#gradNeon)" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="100" cy="85" r="8" fill="#ec4899"/>
+      <path d="M145 45 L155 60 L145 75 L135 60 Z" fill="#06b6d4"/>
+      <path d="M55 45 L62 55 L55 65 L48 55 Z" fill="#a855f7"/>
+    </svg>
+    <h1 class="splash-title">#LezaDeFiesta</h1>
+    <p class="splash-sub">Drinking Party Game</p>
+    <div class="loader-bar">
+      <div class="loader-progress"></div>
+    </div>
+  </div>
+
+  <!-- ENCABEZADO -->
+  <header>
+    <div class="brand">
+      <svg class="brand-icon" viewBox="0 0 200 200" fill="none">
+        <path d="M60 65 L95 105 V145 H105 V105 L140 65 H60 Z" stroke="#c084fc" stroke-width="14" fill="rgba(192,132,252,0.2)"/>
+        <path d="M80 145 H120" stroke="#c084fc" stroke-width="14" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-title">#LezaDeFiesta</span>
+    </div>
+    <button class="btn-players" id="btnPlayers">👥 <span id="playerCount">3</span> Jugadores</button>
+  </header>
+
+  <!-- SELECTOR DE JUEGO -->
+  <div class="nav-container">
+    <button class="btn-game active" id="btnYoNunca">🍺 Yo Nunca</button>
+    <button class="btn-game" id="btnProbable">🎯 ¿Quién es más probable?</button>
+  </div>
+
+  <!-- SELECTOR DE NIVEL -->
+  <div class="level-container">
+    <button class="btn-level" id="btnLight">💧 Light</button>
+    <button class="btn-level active-fiesta" id="btnFiesta">✨ Fiesta</button>
+    <button class="btn-level" id="btnHot">🔥 Hot</button>
+  </div>
+
+  <!-- ZONA DE JUEGO -->
+  <main>
+    <div class="card" id="card">
+      <div class="card-badge" id="cardBadge">🍺 YO NUNCA • FIESTA</div>
+      <div class="card-body">
+        <p class="card-prefix" id="cardPrefix" style="display: none;">¿Quién es más probable que...</p>
+        <p class="card-text" id="cardText">Cargando...</p>
+      </div>
+      <div class="card-footer" id="cardFooter">
+        <span>👇 Toca la tarjeta o pulsa el botón</span>
+      </div>
+    </div>
+    <button class="btn-next" id="btnNext">Siguiente Frase ➔</button>
+  </main>
+
+  <!-- MODAL PARTICIPANTES -->
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Participantes</h3>
+        <button class="btn-close-modal" id="btnCloseModal">Cerrar</button>
+      </div>
+      <form class="player-form" id="playerForm">
+        <input type="text" id="playerNameInput" placeholder="Nombre..." required>
+        <button type="submit">+</button>
+      </form>
+      <div class="player-list" id="playerList"></div>
+    </div>
+  </div>
+
+  <script>
+    // BASE DE DATOS EXTENSA
+    const DATA = {
+      yoNunca: {
+        light: [
+          "Yo nunca me he quedado dormido en el autobús o tren y me he pasado de parada.",
+          "Yo nunca he fingido estar enfermo para librarme de un plan que me daba pereza.",
+          "Yo nunca he mirado el móvil de otra persona a escondidas por encima del hombro.",
+          "Yo nunca he dicho 'ya salgo' cuando ni siquiera me había levantado del sofá.",
+          "Yo nunca he roto algo en una casa ajena y me he callado como si nada.",
+          "Yo nunca me he tropezado en plena calle y me he puesto a correr fingiendo prisa.",
+          "Yo nunca he olvidado el cumpleaños de un amigo cercano o familiar directo.",
+          "Yo nunca he usado la ropa de otra persona sin pedirle permiso antes.",
+          "Yo nunca he cantado con auriculares a todo volumen pensando que sonaba genial.",
+          "Yo nunca he fingido que me encantaba un regalo que en el fondo odiaba.",
+          "Yo nunca me he reído a carcajadas en un momento totalmente serio o incómodo.",
+          "Yo nunca he dejado un mensaje en 'visto' durante varios días seguidos por pura pereza.",
+          "Yo nunca he comido algo del suelo invocando la regla de los 5 segundos.",
+          "Yo nunca he fingido hablar por teléfono para evitar saludar a alguien en la calle.",
+          "Yo nunca he stalkeado tanto a alguien que le di like a una foto de hace tres años."
+        ],
+        fiesta: [
+          "Yo nunca he perdido el móvil, las llaves o la cartera durante una noche de fiesta.",
+          "Yo nunca he prometido 'no vuelvo a beber nunca más' y he bebido esa misma semana.",
+          "Yo nunca he intentado colarme en la zona VIP o sin pagar entrada en una discoteca.",
+          "Yo nunca he terminado de after en el piso de gente que acababa de conocer.",
+          "Yo nunca he mandado un audio de fiesta del que me he arrepentido la mañana siguiente.",
+          "Yo nunca he hecho la 'bomba de humo' (irme de una fiesta sin despedirme de nadie).",
+          "Yo nunca he tenido que cuidar toda la noche a un amigo que iba destruido.",
+          "Yo nunca he perdido una chaqueta de fiesta y nunca más ha aparecido.",
+          "Yo nunca he mezclado tres o más bebidas alcohólicas diferentes en el mismo vaso.",
+          "Yo nunca he besado a alguien en una fiesta y luego no me acordaba de su nombre.",
+          "Yo nunca he subido un vídeo o historia a redes que borré a la mañana siguiente con vergüenza.",
+          "Yo nunca me he gastado más de 50€ en una sola noche sin tener idea de en qué se fueron.",
+          "Yo nunca le he tirado la caña al camarero/a para conseguir copas o chupitos gratis.",
+          "Yo nunca me he quedado dormido en un rincón de un bar o en el baño de un local.",
+          "Yo nunca he terminado desayunando churros o kebab sin haber dormido nada."
+        ],
+        hot: [
+          "Yo nunca he besado al ex o al crush de un amigo o amiga.",
+          "Yo nunca he tenido un sueño subido de tono con alguien de esta misma sala.",
+          "Yo nunca he enviado o recibido una foto sugerente sin ropa.",
+          "Yo nunca he tenido una aventura con un compañero de clase o de trabajo.",
+          "Yo nunca he practicado sexting en plena madrugada estando de fiesta.",
+          "Yo nunca he sido infiel ni he colaborado a que otra persona lo fuera.",
+          "Yo nunca me he liado con dos o más personas distintas en la misma noche.",
+          "Yo nunca he tenido una cita tan desastrosa que me inventé una emergencia para escapar.",
+          "Yo nunca he tenido un lío con alguien diez años mayor que yo.",
+          "Yo nunca he buscado el perfil del ex de mi pareja o crush desde una cuenta falsa.",
+          "Yo nunca me he liado con alguien única y exclusivamente por despecho.",
+          "Yo nunca he mandado un mensaje picante a la persona equivocada por error.",
+          "Yo nunca he fingido satisfacción solo para que el momento terminara antes.",
+          "Yo nunca he probado nada con alguien de mi mismo sexo.",
+          "Yo nunca he jugado a verdad o reto con segundas intenciones claras."
+        ]
+      },
+      probable: {
+        light: [
+          "sea la persona con más tiempo de pantalla y adicción al móvil del grupo?",
+          "se gaste todo el dinero recién cobrado en caprichos inútiles?",
+          "llegue con media hora de retraso incluso a su propia boda?",
+          "se ría a carcajadas en un momento donde reine el silencio absoluto?",
+          "caiga en una estafa ridícula de internet por inocente?",
+          "se quede atrapado en el baño por no saber hacia dónde gira el pestillo?",
+          "cante a gritos en la ducha pensando que está en un concierto?",
+          "cancele los planes un domingo por la tarde a última hora por pereza?",
+          "tenga configuradas más de 20 alarmas consecutivas para despertarse?",
+          "se ponga a hablar de su vida entera con desconocidos en una cola?"
+        ],
+        fiesta: [
+          "pierda el móvil o las gafas en los primeros 30 minutos de entrar al local?",
+          "proponga ir de after a las 6 de la mañana cuando todos están reventados?",
+          "se haga íntimo amigo del relaciones públicas o del portero en 5 minutos?",
+          "acabe durmiendo en un banco de la calle sin enterarse de la película?",
+          "desaparezca de la discoteca sin decir una sola palabra a nadie?",
+          "se gaste medio sueldo invitando a rondas de chupitos a desconocidos?",
+          "se ponga sentimental en el baño diciendo que sois sus mejores amigos?",
+          "se pegue un tropiezo intentando hacer un baile demasiado motivado?",
+          "pierda la chaqueta o abrigo y le eche la culpa a otra persona?",
+          "cante temas de reguetón antiguo a voz en grito dejándose la garganta?"
+        ],
+        hot: [
+          "acabe liándose con alguien en los primeros compases de la noche?",
+          "le envíe un mensaje comprometido a su ex a las cuatro de la madrugada?",
+          "tenga una cuenta secundaria secreta para cotillear perfiles ajenos?",
+          "se líe con el hermano/a o primo/a de un amigo si tuviera ocasión?",
+          "protagonice las historias de salseo amoroso más rocambolescas?",
+          "se vaya de la fiesta con alguien que acaba de conocer hace 10 minutos?",
+          "acumule más mensajes subidos de tono en el buzón de entrada?",
+          "proponga juegos de prendas y besos en cuanto haya confianza?",
+          "se haya liado con alguien de quien ahora le dé auténtica vergüenza hablar?"
+        ]
+      }
+    };
+
+    // ESTADO
+    let currentGame = 'yoNunca';
+    let currentLevel = 'fiesta';
+    let players = ['Dani', 'Alex', 'Laura'];
+    let currentIndex = 0;
+
+    const themeColors = {
+      light: { primary: '#06b6d4', glow: 'rgba(6, 182, 212, 0.45)', gradient: 'linear-gradient(135deg, #06b6d4, #3b82f6)' },
+      fiesta: { primary: '#a855f7', glow: 'rgba(168, 85, 247, 0.45)', gradient: 'linear-gradient(135deg, #a855f7, #ec4899)' },
+      hot: { primary: '#ec4899', glow: 'rgba(236, 72, 153, 0.45)', gradient: 'linear-gradient(135deg, #ec4899, #f43f5e)' }
+    };
+
+    // DOM
+    const card = document.getElementById('card');
+    const cardBadge = document.getElementById('cardBadge');
+    const cardPrefix = document.getElementById('cardPrefix');
+    const cardText = document.getElementById('cardText');
+    const cardFooter = document.getElementById('cardFooter');
+    const btnNext = document.getElementById('btnNext');
+
+    const btnYoNunca = document.getElementById('btnYoNunca');
+    const btnProbable = document.getElementById('btnProbable');
+    const btnLight = document.getElementById('btnLight');
+    const btnFiesta = document.getElementById('btnFiesta');
+    const btnHot = document.getElementById('btnHot');
+
+    const modal = document.getElementById('modal');
+    const btnPlayers = document.getElementById('btnPlayers');
+    const btnCloseModal = document.getElementById('btnCloseModal');
+    const playerForm = document.getElementById('playerForm');
+    const playerNameInput = document.getElementById('playerNameInput');
+    const playerList = document.getElementById('playerList');
+    const playerCount = document.getElementById('playerCount');
+
+    function updateCard() {
+      const list = DATA[currentGame][currentLevel];
+      const text = list[currentIndex % list.length];
+      const theme = themeColors[currentLevel];
+
+      card.style.borderColor = theme.primary;
+      card.style.boxShadow = `0 15px 35px -10px ${theme.glow}`;
+      btnNext.style.background = theme.gradient;
+      btnNext.style.boxShadow = `0 8px 25px -5px ${theme.glow}`;
+      cardBadge.style.color = theme.primary;
+
+      const titleMode = currentGame === 'yoNunca' ? '🍺 YO NUNCA' : '🎯 ¿QUIÉN ES MÁS PROBABLE?';
+      cardBadge.innerText = `${titleMode} • ${currentLevel.toUpperCase()}`;
+
+      if (currentGame === 'probable') {
+        cardPrefix.style.display = 'block';
+        cardFooter.innerHTML = '<span>👉 A la de 3, todos señalad a la vez</span>';
+      } else {
+        cardPrefix.style.display = 'none';
+        cardFooter.innerHTML = '<span>🍻 Quien lo haya hecho, bebe un trago</span>';
+      }
+
+      cardText.innerText = text;
+    }
+
+    function nextCard() {
+      const list = DATA[currentGame][currentLevel];
+      currentIndex = (currentIndex + 1) % list.length;
+      updateCard();
+    }
+
+    // MODOS
+    btnYoNunca.addEventListener('click', () => {
+      currentGame = 'yoNunca';
+      btnYoNunca.classList.add('active');
+      btnProbable.classList.remove('active');
+      currentIndex = 0;
+      updateCard();
+    });
+
+    btnProbable.addEventListener('click', () => {
+      currentGame = 'probable';
+      btnProbable.classList.add('active');
+      btnYoNunca.classList.remove('active');
+      currentIndex = 0;
+      updateCard();
+    });
+
+    // NIVELES
+    function resetLevelStyles() {
+      btnLight.className = 'btn-level';
+      btnFiesta.className = 'btn-level';
+      btnHot.className = 'btn-level';
+    }
+
+    btnLight.addEventListener('click', () => {
+      currentLevel = 'light';
+      resetLevelStyles();
+      btnLight.classList.add('active-light');
+      currentIndex = 0;
+      updateCard();
+    });
+
+    btnFiesta.addEventListener('click', () => {
+      currentLevel = 'fiesta';
+      resetLevelStyles();
+      btnFiesta.classList.add('active-fiesta');
+      currentIndex = 0;
+      updateCard();
+    });
+
+    btnHot.addEventListener('click', () => {
+      currentLevel = 'hot';
+      resetLevelStyles();
+      btnHot.classList.add('active-hot');
+      currentIndex = 0;
+      updateCard();
+    });
+
+    card.addEventListener('click', nextCard);
+    btnNext.addEventListener('click', nextCard);
+
+    // GESTIÓN JUGADORES
+    function renderPlayers() {
+      playerCount.innerText = players.length;
+      playerList.innerHTML = '';
+      players.forEach((p, idx) => {
+        const row = document.createElement('div');
+        row.className = 'player-row';
+        row.innerHTML = `<span>${p}</span><button class="btn-del" onclick="deletePlayer(${idx})">✕</button>`;
+        playerList.appendChild(row);
+      });
+    }
+
+    window.deletePlayer = function(i) {
+      players.splice(i, 1);
+      renderPlayers();
+    };
+
+    playerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = playerNameInput.value.trim();
+      if (val) {
+        players.push(val);
+        playerNameInput.value = '';
+        renderPlayers();
+      }
+    });
+
+    btnPlayers.addEventListener('click', () => modal.style.display = 'flex');
+    btnCloseModal.addEventListener('click', () => modal.style.display = 'none');
+
+    // REGISTRO DE SERVICE WORKER PARA INSTALACIÓN PWA
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        self.addEventListener('install', e => self.skipWaiting());
+        self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
+      `;
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+    }
+
+    // ANIMACIÓN SPLASH SCREEN (PANTALLA DE CARGA)
+    window.addEventListener('DOMContentLoaded', () => {
+      renderPlayers();
+      updateCard();
+
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        setTimeout(() => {
+          splash.style.visibility = 'hidden';
+        }, 600);
+      }, 1900);
+    });
+  </script>
+</body>
+</html>
