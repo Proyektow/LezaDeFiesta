@@ -1,93 +1,92 @@
 /* ==========================================================
-   #LezaDeFiesta - Lógica, Navegación de Juegos y Cuadrilla
+   #LezaDeFiesta - Lógica del Juego y Selector de Temas
    ========================================================== */
 
-// BASE DE PREGUNTAS Y RETOS
 const DATABASE = {
   yoNunca: {
     light: [
-      "Yo nunca me he quedado dormido en el autobús y he terminado en otro pueblo.",
-      "Yo nunca he fingido estar malo para escaquearme de un plan con pereza.",
+      "Yo nunca me he quedado dormido en el transporte público y me he pasado de parada.",
+      "Yo nunca he fingido estar enfermo para librarme de un plan que me daba pereza.",
       "Yo nunca he mirado el móvil ajeno por encima del hombro disimulando.",
-      "Yo nunca he dicho 'ya voy de camino' estando todavía en pijama.",
-      "Yo nunca he roto una copa en una cena y he disimulado haciéndome el loco.",
-      "Yo nunca he tropezado en mitad de la plaza y me he puesto a correr disimulando.",
-      "Yo nunca he olvidado el cumpleaños de un amigo cercano de la cuadrilla.",
-      "Yo nunca he usado colonia o ropa de otro sin pedirle permiso.",
-      "Yo nunca he cantado en la ducha a grito pelado creyendo que sonaba bien.",
-      "Yo nunca he fingido que me encantaba un vino que me parecía vinagre puro."
+      "Yo nunca he dicho 'ya salgo' cuando ni siquiera me había vestido.",
+      "Yo nunca he roto algo en una fiesta o casa ajena y me he quedado callado.",
+      "Yo nunca he tropezado en plena calle y me he puesto a correr fingiendo prisa.",
+      "Yo nunca he olvidado el cumpleaños de un amigo cercano.",
+      "Yo nunca he usado la ropa de otra persona sin pedirle permiso antes.",
+      "Yo nunca he cantado con auriculares a todo volumen pensando que sonaba bien.",
+      "Yo nunca he fingido hablar por teléfono para evitar saludar a alguien en la calle."
     ],
     fiesta: [
       "Yo nunca he perdido el móvil, las llaves o la cartera durante una noche de fiesta.",
-      "Yo nunca he prometido 'no vuelvo a beber' y he caído esa misma semana.",
-      "Yo nunca he acabado de madrugada en la bajera o casa de desconocidos.",
-      "Yo nunca he mandado un audio de fiesta del que me he arrepentido la mañana siguiente.",
-      "Yo nunca he hecho la bomba de humo yéndome sin despedirme de nadie.",
-      "Yo nunca he cuidado toda la noche a un amigo que iba destruido.",
-      "Yo nunca he perdido una chaqueta de fiesta que jamás volvió a aparecer.",
-      "Yo nunca he mezclado tres bebidas diferentes en el mismo vaso.",
-      "Yo nunca he subido un vídeo o historia a redes que luego borré con resaca moral.",
-      "Yo nunca he acabado almorzando sin haber pasado por la cama."
+      "Yo nunca he prometido 'no vuelvo a beber' y he bebido esa misma semana.",
+      "Yo nunca he terminado de after en la casa o bajera de completos desconocidos.",
+      "Yo nunca he mandado un audio de fiesta del que me he arrepentido al despertar.",
+      "Yo nunca he hecho la bomba de humo (irme sin despedirme de nadie).",
+      "Yo nunca he tenido que cuidar toda la noche a un amigo que iba destruido.",
+      "Yo nunca he perdido una chaqueta de fiesta y nunca más ha aparecido.",
+      "Yo nunca he mezclado tres o más bebidas alcohólicas diferentes en el mismo vaso.",
+      "Yo nunca he borrado historias de redes sociales con auténtica resaca moral.",
+      "Yo nunca he terminado desayunando churros o kebab sin haber dormido nada."
     ],
     hot: [
-      "Yo nunca he besado al ex o al crush de alguien conocido.",
-      "Yo nunca he tenido un sueño subido de tono con alguien de esta mesa.",
-      "Yo nunca he mandado o recibido una foto comprometedora.",
-      "Yo nunca he tenido un lío secreto con alguien del trabajo o de clase.",
-      "Yo nunca he practicado sexting a altas horas de la madrugada.",
+      "Yo nunca he besado al ex o al crush de un amigo o amiga.",
+      "Yo nunca he tenido un sueño subido de tono con alguien de esta sala.",
+      "Yo nunca he enviado o recibido una foto sugerente sin ropa.",
+      "Yo nunca he tenido una aventura con un compañero de trabajo o de clase.",
+      "Yo nunca he practicado sexting en plena madrugada de fiesta.",
       "Yo nunca he sido infiel ni he ayudado a que alguien lo fuera.",
-      "Yo nunca me he liado con dos personas distintas en una misma noche de fiesta.",
-      "Yo nunca he fingido que me llamaban para escapar de una cita terrible.",
-      "Yo nunca me he liado con alguien solo por despecho.",
+      "Yo nunca me he liado con dos o más personas distintas en una misma noche.",
+      "Yo nunca he tenido una cita tan mala que me inventé una emergencia para huir.",
+      "Yo nunca me he liado con alguien única y exclusivamente por despecho.",
       "Yo nunca he probado nada con alguien de mi mismo sexo."
     ]
   },
   probable: {
     light: [
-      "sea la persona con más horas pegada a la pantalla del móvil?",
-      "se gaste el jornal del mes en caprichos inútiles a los dos días?",
-      "llegue media hora tarde incluso si la fiesta es en su propia casa?",
-      "se ría en un momento solemne o en pleno silencio incómodo?",
-      "se crea cualquier bulo o noticia absurda que le manden?",
-      "se quede encerrado en un baño por no saber abrir el cerrojo?",
-      "cancele el plan a las nueve de la noche por pereza extrema de sofá?"
+      "sea la persona con más horas de pantalla y adicción al móvil del grupo?",
+      "se gaste todo el dinero nada más cobrar en caprichos inútiles?",
+      "llegue media hora tarde incluso a su propia fiesta de cumpleaños?",
+      "se ría en un momento donde reine el silencio absoluto e incómodo?",
+      "caiga en una estafa fácil de internet por inocente?",
+      "se quede encerrado en un baño por no saber hacia dónde gira el cerrojo?",
+      "cancele los planes a última hora por pura pereza extrema?"
     ],
     fiesta: [
-      "pierda el móvil en la primera hora de estar en el bar?",
-      "proponga seguir de fiesta a las 7 de la mañana cuando todos están muertos?",
-      "se haga compadre del camarero en menos de diez minutos?",
-      "acabe durmiendo en un rincón o banco sin enterarse de la película?",
-      "se gaste la mitad de la cartera invitando a rondas a gente que no conoce?",
-      "se ponga sentimental en el baño diciendo cuánto quiere a la cuadrilla?",
-      "se tropiece intentando hacer un paso de baile que vio en TikTok?"
+      "pierda el móvil en los primeros 30 minutos de entrar al local?",
+      "proponga ir de after a las 6 de la mañana cuando todos están muertos?",
+      "se haga íntimo amigo del camarero o del relaciones públicas en 5 minutos?",
+      "acabe durmiendo en un banco de la calle sin enterarse de la película?",
+      "desaparezca de la discoteca sin decir una sola palabra a nadie?",
+      "se gaste medio sueldo invitando a rondas de chupitos a desconocidos?",
+      "se tropiece intentando hacer un paso de baile motivado?"
     ],
     hot: [
-      "acabe liándose con alguien en los primeros compases de la noche?",
-      "le escriba a su ex a las cuatro de la madrugada con copas encima?",
-      "tenga una cuenta secundaria para cotillear sin que nadie se entere?",
-      "se líe con el hermano/a o primo/a de un amigo si tuviera la ocasión?",
-      "tenga las historias de amor más telenoveleras y caóticas?",
-      "se marche de la fiesta con alguien que acaba de conocer hace 10 minutos?"
+      "acabe liándose con alguien en los primeros 20 minutos de salir?",
+      "le envíe un mensaje a su ex a las cuatro de la madrugada con copas encima?",
+      "tenga una cuenta secundaria secreta para cotillear perfiles ajenos?",
+      "se líe con el hermano/a o primo/a de un amigo si tuviera ocasión?",
+      "protagonice las historias de amor más caóticas y de película?",
+      "se vaya de la fiesta con alguien que acaba de conocer hace 10 minutos?"
     ]
   },
-  roulettePenalties: [
-    "Tiene 30 segundos para enseñar la última foto de su carrete o bebe 2 tragos.",
-    "Elige a 2 personas de la mesa para que beban un trago largo con ella/él.",
-    "Tiene que mandar un audio a cualquier contacto cantando una jota o beber 3 tragos.",
-    "Se queda en silencio absoluto durante las 2 próximas tarjetas; si habla, bebe.",
-    "Todos en la mesa le hacen una pregunta comprometida; si no responde con la verdad, paga con trago.",
-    "Reparte 3 tragos entre los presentes como mejor le parezca.",
-    "Imita a alguien de la mesa durante un minuto o bebe un trago."
+  rouletteTasks: [
+    "Tiene 30 segundos para enseñar la última foto de su galería o bebe 2 tragos.",
+    "Elige a 2 personas de la mesa para que beban con ella/él.",
+    "Tiene que mandar un audio a cualquier contacto diciendo que lo quiere mucho o beber 3 tragos.",
+    "Intercambia un objeto o prenda con la persona de su derecha durante 2 rondas.",
+    "Todos en la mesa le hacen una pregunta incómoda. Si no responde con la verdad, bebe un trago.",
+    "Reparte 3 tragos entre los participantes como mejor prefiera.",
+    "Se queda en silencio absoluto durante las próximas 3 tarjetas; si habla, bebe un trago."
   ],
   bombTopics: [
-    "Tipos o marcas de vino y bebidas",
-    "Pueblos de Rioja Alavesa o alrededores",
-    "Excusas para no salir o recogerse temprano",
-    "Tapas y raciones típicas de bar",
-    "Canciones míticas de fiesta que todos se saben",
-    "Cosas que puedes encontrar en las fiestas de un pueblo",
-    "Motivos por los que alguien acabaría castigado o multado",
-    "Comidas sagradas para quitar la resaca"
+    "Marcas de bebidas o cócteles",
+    "Excusas típicas para no salir de fiesta",
+    "Ciudades del mundo que te gustaría visitar",
+    "Cosas que encuentras en una noche de fiesta",
+    "Canciones míticas de reguetón o pop festivo",
+    "Insultos graciosos sin repetir",
+    "Razones por las que te echarían de un local",
+    "Comidas sagradas para pasar la resaca"
   ]
 };
 
@@ -96,10 +95,10 @@ let currentScreen = 'screenHome';
 let activeCardGame = 'yoNunca'; // 'yoNunca' | 'probable'
 let currentLevel = 'fiesta';     // 'light' | 'fiesta' | 'hot'
 
-// Cuadrilla guardada con LocalStorage
+// Cargar participantes y tema de color
 let players = JSON.parse(localStorage.getItem('leza_players')) || ['Alex', 'Laura', 'Dani'];
+let savedTheme = localStorage.getItem('leza_theme') || 'purple';
 
-// Barajas sin repetición
 let decks = {};
 
 function shuffle(array) {
@@ -150,13 +149,13 @@ const chosenTask = document.getElementById('chosenTask');
 const btnSpin = document.getElementById('btnSpin');
 
 // Bomba
-const barrelEmoji = document.getElementById('barrelEmoji');
+const bombEmoji = document.getElementById('bombEmoji');
 const bombSubject = document.getElementById('bombSubject');
 const bombFootnote = document.getElementById('bombFootnote');
 const btnTriggerBomb = document.getElementById('btnTriggerBomb');
 let bombTimer = null;
 
-// Modales y formularios de jugadores
+// Modales y formularios
 const playersModal = document.getElementById('playersModal');
 const btnOpenModal = document.getElementById('btnOpenModal');
 const btnCloseModal = document.getElementById('btnCloseModal');
@@ -167,6 +166,23 @@ const formModalPlayer = document.getElementById('formModalPlayer');
 const inputModalPlayer = document.getElementById('inputModalPlayer');
 const modalChipsList = document.getElementById('modalChipsList');
 
+// GESTOR DE TEMAS DE COLOR
+function applyTheme(themeName) {
+  document.body.setAttribute('data-theme', themeName);
+  localStorage.setItem('leza_theme', themeName);
+
+  document.querySelectorAll('.theme-dot').forEach(dot => {
+    dot.classList.toggle('active', dot.dataset.color === themeName);
+  });
+}
+
+document.querySelectorAll('.theme-dot').forEach(dot => {
+  dot.addEventListener('click', () => {
+    triggerHaptic();
+    applyTheme(dot.dataset.color);
+  });
+});
+
 // NAVEGACIÓN ENTRE PANTALLAS
 function switchScreen(targetScreenId) {
   triggerHaptic();
@@ -174,8 +190,7 @@ function switchScreen(targetScreenId) {
   document.getElementById(targetScreenId).classList.add('active');
   currentScreen = targetScreenId;
 
-  // Actualizar barra inferior
-  document.querySelectorAll('.stone-item').forEach(item => {
+  document.querySelectorAll('.nav-button').forEach(item => {
     item.classList.remove('active');
     if (item.dataset.target === targetScreenId) {
       if (targetScreenId === 'screenCards' && item.dataset.mode !== activeCardGame) {
@@ -188,7 +203,7 @@ function switchScreen(targetScreenId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// LANZAR MODOS DESDE EL LOBBY PRINCIPAL
+// LANZADOR DESDE EL INICIO
 document.querySelectorAll('.mode-card').forEach(card => {
   card.addEventListener('click', () => {
     const launchType = card.dataset.launch;
@@ -203,7 +218,7 @@ document.querySelectorAll('.mode-card').forEach(card => {
       switchScreen('screenCards');
     } else if (launchType === 'roulette') {
       if (players.length === 0) {
-        alert("Añade primero a alguien de la cuadrilla para que la ruleta pueda señalar.");
+        alert("Añade primero a alguien para que la ruleta pueda elegir una víctima.");
         inputHomePlayer.focus();
         return;
       }
@@ -219,7 +234,7 @@ document.querySelectorAll('.mode-card').forEach(card => {
 function updateCardGame() {
   triggerHaptic();
   const phrase = getNextCardPhrase(activeCardGame, currentLevel);
-  const levelLabels = { light: 'COSECHERO', fiesta: 'CRIANZA', hot: 'RESERVA 🔥' };
+  const levelLabels = { light: 'LIGHT', fiesta: 'FIESTA', hot: 'HOT 🔥' };
 
   if (activeCardGame === 'yoNunca') {
     cardCategoryBadge.innerText = `YO NUNCA • ${levelLabels[currentLevel]}`;
@@ -227,46 +242,46 @@ function updateCardGame() {
     cardMainText.innerText = phrase;
     cardRuleNote.innerText = 'Quien lo haya hecho, bebe un trago.';
   } else {
-    cardCategoryBadge.innerText = `¿QUIÉN ES MÁS PROBABLE? • ${levelLabels[currentLevel]}`;
+    cardCategoryBadge.innerText = `PROBABLE • ${levelLabels[currentLevel]}`;
     cardPrefixText.innerText = '¿Quién es más probable que...';
     cardMainText.innerText = phrase;
-    cardRuleNote.innerText = 'A la de tres, todos señalad a la vez.';
+    cardRuleNote.innerText = 'A la de tres, todos señalan al mismo tiempo.';
   }
 }
 
-// SELECTOR DE NIVELES (Cosechero / Crianza / Reserva)
-document.querySelectorAll('.btn-vintage-level').forEach(btn => {
+// SELECTOR DE NIVELES (Light / Fiesta / Hot)
+document.querySelectorAll('.btn-level').forEach(btn => {
   btn.addEventListener('click', () => {
     triggerHaptic();
-    document.querySelectorAll('.btn-vintage-level').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.btn-level').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentLevel = btn.dataset.level;
     updateCardGame();
   });
 });
 
-// RULETA DE SAN MARTÍN
+// RULETA
 function spinRoulette() {
   triggerHaptic();
   if (players.length === 0) {
     chosenVictim.innerText = "¡NADIE!";
-    chosenTask.innerText = "Añadid amigos a la cuadrilla para jugar este modo.";
+    chosenTask.innerText = "Añade jugadores para activar la ruleta.";
     return;
   }
   const randomPerson = players[Math.floor(Math.random() * players.length)];
-  const randomTask = DATABASE.roulettePenalties[Math.floor(Math.random() * DATABASE.roulettePenalties.length)];
+  const randomTask = DATABASE.rouletteTasks[Math.floor(Math.random() * DATABASE.rouletteTasks.length)];
 
   chosenVictim.innerText = randomPerson;
   chosenTask.innerText = randomTask;
 }
 
-// LA BARRICA EXPLOSIVA
+// LA BOMBA
 function startBomb() {
   triggerHaptic();
   if (bombTimer) clearTimeout(bombTimer);
 
-  barrelEmoji.innerText = '🪵';
-  barrelEmoji.classList.add('shaking');
+  bombEmoji.innerText = '💣';
+  bombEmoji.classList.add('shaking');
   const topic = DATABASE.bombTopics[Math.floor(Math.random() * DATABASE.bombTopics.length)];
   bombSubject.innerText = topic;
   bombFootnote.innerText = '¡Pasad el móvil rápido diciendo una palabra válida!';
@@ -276,26 +291,26 @@ function startBomb() {
   const explosionDelay = Math.floor(Math.random() * 14000) + 10000;
 
   bombTimer = setTimeout(() => {
-    barrelEmoji.classList.remove('shaking');
-    barrelEmoji.innerText = '💥';
-    bombSubject.innerText = "¡REVENTÓ LA BARRICA!";
-    bombFootnote.innerText = "¡Quien tenga el móvil en la mano se bebe un trago entero!";
+    bombEmoji.classList.remove('shaking');
+    bombEmoji.innerText = '💥';
+    bombSubject.innerText = "¡BOOOOOM!";
+    bombFootnote.innerText = "¡El que tenga el móvil en la mano se bebe un trago entero!";
     btnTriggerBomb.disabled = false;
     btnTriggerBomb.style.opacity = '1';
-    btnTriggerBomb.innerText = 'Prender Otra Mecha';
+    btnTriggerBomb.innerText = 'Activar Otra Bomba';
     if ('vibrate' in navigator) navigator.vibrate([200, 100, 200, 100, 400]);
   }, explosionDelay);
 }
 
-// EVENTOS DE BOTONES
+// BOTONES DE ACCIÓN
 btnNextCard.addEventListener('click', updateCardGame);
 mainGameCard.addEventListener('click', updateCardGame);
 btnSpin.addEventListener('click', spinRoulette);
 btnTriggerBomb.addEventListener('click', startBomb);
 brandHomeBtn.addEventListener('click', () => switchScreen('screenHome'));
 
-// NAVEGACIÓN BARRA INFERIOR
-document.querySelectorAll('.stone-item').forEach(btn => {
+// NAVEGACIÓN INFERIOR
+document.querySelectorAll('.nav-button').forEach(btn => {
   btn.addEventListener('click', () => {
     const target = btn.dataset.target;
     if (btn.dataset.mode) {
@@ -306,7 +321,7 @@ document.querySelectorAll('.stone-item').forEach(btn => {
   });
 });
 
-// GESTIÓN DE PARTICIPANTES (LOCALSTORAGE)
+// PARTICIPANTES
 function syncPlayers() {
   localStorage.setItem('leza_players', JSON.stringify(players));
   playerBadgeCount.innerText = players.length;
@@ -316,20 +331,18 @@ function syncPlayers() {
   modalChipsList.innerHTML = '';
 
   if (players.length === 0) {
-    const emptyMsg = '<p style="color:#ab9b94;font-size:0.75rem;padding:6px 0;">No hay nadie apuntado aún.</p>';
+    const emptyMsg = '<p style="color:#8e97af;font-size:0.75rem;padding:6px 0;">No hay nadie añadido aún.</p>';
     homeChipsContainer.innerHTML = emptyMsg;
     modalChipsList.innerHTML = emptyMsg;
     return;
   }
 
   players.forEach((name, idx) => {
-    // Chip para Home
     const chipHome = document.createElement('span');
     chipHome.className = 'player-chip';
     chipHome.innerHTML = `<span>${name}</span><button onclick="removePlayer(${idx})">✕</button>`;
     homeChipsContainer.appendChild(chipHome);
 
-    // Chip para Modal
     const chipModal = document.createElement('span');
     chipModal.className = 'player-chip';
     chipModal.innerHTML = `<span>${name}</span><button onclick="removePlayer(${idx})">✕</button>`;
@@ -374,6 +387,7 @@ btnCloseModal.addEventListener('click', () => {
 
 // INICIALIZACIÓN
 window.addEventListener('DOMContentLoaded', () => {
+  applyTheme(savedTheme);
   syncPlayers();
   updateCardGame();
 
@@ -382,5 +396,5 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       splashScreen.style.visibility = 'hidden';
     }, 500);
-  }, 1600);
+  }, 1500);
 });
