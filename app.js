@@ -1,10 +1,6 @@
 /* ==========================================================
-   #LezaDeFiesta - Código Completo con Frases Reales y Novedades
+   #LezaDeFiesta - Código Completo con Modos Separados & Novedades
    ========================================================== */
-
-// Cambia este número de versión cada vez que quieras que el cartel
-// de actualizaciones vuelva a mostrarse automáticamente a todo el mundo
-const APP_VERSION = "2.0";
 
 // --- 1. SINTETIZADOR DE AUDIO WEB ---
 const SoundEngine = {
@@ -69,7 +65,7 @@ function triggerHaptic() {
   if ('vibrate' in navigator) navigator.vibrate(30);
 }
 
-// --- 2. BANCO DE DATOS REAL (100 frases exactas por modo) ---
+// --- 2. BANCO DE DATOS (100 frases exactas por modo) ---
 const DB = {
   sips: ["1 Trago", "2 Tragos", "¡Chupito!", "Manda 2 Tragos", "1 Trago", "2 Tragos", "Trago Doble", "Manda 1 Trago"],
 
@@ -813,7 +809,7 @@ const DB = {
 
 // --- 3. ESTADO GLOBAL ---
 let currentScreen = 'screenHome';
-let activeCardGame = 'yoNunca';
+let activeCardGame = 'yoNunca'; // 'yoNunca' | 'probable' | 'mixto'
 let currentLevel = 'fiesta';
 let cardCounter = 0;
 
@@ -907,7 +903,7 @@ const btnCloseCurseModal = document.getElementById('btnCloseCurseModal');
 const newsModal = document.getElementById('newsModal');
 const btnOpenNews = document.getElementById('btnOpenNews');
 const btnCloseNewsX = document.getElementById('btnCloseNewsX');
-const btnDismissNewsForever = document.getElementById('btnDismissNewsForever');
+const btnDismissNews = document.getElementById('btnDismissNews');
 
 // --- 5. SWIPE GESTURES ---
 let startX = 0, currentX = 0, isDragging = false;
@@ -1003,20 +999,35 @@ function switchScreen(id) {
 
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.classList.remove('active');
-    if (btn.dataset.target === id) btn.classList.add('active');
+    if (btn.dataset.target === id) {
+      if (btn.dataset.forcedMode && btn.dataset.forcedMode !== activeCardGame) return;
+      btn.classList.add('active');
+    }
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateModeToggleButtons() {
+  document.querySelectorAll('.btn-mode-toggle').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === activeCardGame);
+  });
 }
 
 function nextCardAction() {
   if (checkRandomEvents()) return;
   triggerHaptic();
 
-  const phrase = getCard(activeCardGame, currentLevel);
+  // Determinar qué modo se muestra en esta carta
+  let currentGameToPull = activeCardGame;
+  if (activeCardGame === 'mixto') {
+    currentGameToPull = Math.random() < 0.5 ? 'yoNunca' : 'probable';
+  }
+
+  const phrase = getCard(currentGameToPull, currentLevel);
   const sip = DB.sips[Math.floor(Math.random() * DB.sips.length)];
   cardSipPill.innerText = sip;
 
-  if (activeCardGame === 'yoNunca') {
+  if (currentGameToPull === 'yoNunca') {
     cardCategoryBadge.innerText = `YO NUNCA • ${currentLevel.toUpperCase()}`;
     cardPrefixText.innerText = '';
     cardMainText.innerText = phrase;
@@ -1033,8 +1044,9 @@ btnNextCard.addEventListener('click', nextCardAction);
 document.querySelectorAll('.mode-card').forEach(card => {
   card.addEventListener('click', () => {
     const launch = card.dataset.launch;
-    if (launch === 'yoNunca' || launch === 'probable') {
+    if (launch === 'yoNunca' || launch === 'probable' || launch === 'mixto') {
       activeCardGame = launch;
+      updateModeToggleButtons();
       nextCardAction();
       switchScreen('screenCards');
     } else if (launch === 'prefieres') {
@@ -1052,6 +1064,16 @@ document.querySelectorAll('.mode-card').forEach(card => {
     } else if (launch === 'bomb') {
       switchScreen('screenBomb');
     }
+  });
+});
+
+// Selector de Modo (Solo Yo Nunca, Solo Probable o Mixto)
+document.querySelectorAll('.btn-mode-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    triggerHaptic();
+    activeCardGame = btn.dataset.mode;
+    updateModeToggleButtons();
+    nextCardAction();
   });
 });
 
@@ -1233,7 +1255,11 @@ document.querySelectorAll('.btn-level').forEach(btn => {
 document.querySelectorAll('.nav-button').forEach(btn => {
   btn.addEventListener('click', () => {
     const target = btn.dataset.target;
-    if (btn.dataset.mode) activeCardGame = btn.dataset.mode;
+    if (btn.dataset.forcedMode) {
+      activeCardGame = btn.dataset.forcedMode;
+      updateModeToggleButtons();
+      nextCardAction();
+    }
     switchScreen(target);
   });
 });
@@ -1309,25 +1335,21 @@ document.getElementById('btnCloseModal').addEventListener('click', () => {
 });
 
 // --- 9. NOVEDADES / ACTUALIZACIONES ---
-function checkNewsUpdate() {
-  const lastSeen = localStorage.getItem('leza_news_seen_version');
-  if (lastSeen !== APP_VERSION) {
-    newsModal.style.display = 'flex';
-  }
+function showNewsModal() {
+  newsModal.style.display = 'flex';
 }
 
 btnOpenNews.addEventListener('click', () => {
   triggerHaptic();
-  newsModal.style.display = 'flex';
+  showNewsModal();
 });
 
 btnCloseNewsX.addEventListener('click', () => {
   newsModal.style.display = 'none';
 });
 
-btnDismissNewsForever.addEventListener('click', () => {
+btnDismissNews.addEventListener('click', () => {
   triggerHaptic();
-  localStorage.setItem('leza_news_seen_version', APP_VERSION);
   newsModal.style.display = 'none';
 });
 
@@ -1368,7 +1390,8 @@ window.addEventListener('DOMContentLoaded', () => {
     splashScreen.style.opacity = '0';
     setTimeout(() => {
       splashScreen.style.visibility = 'hidden';
-      checkNewsUpdate();
-    }, 500);
-  }, 1400);
+      // Muestra SIEMPRE el cartel de novedades tras la carga inicial
+      showNewsModal();
+    }, 400);
+  }, 1200);
 });
