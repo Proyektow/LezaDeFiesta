@@ -1,50 +1,66 @@
 /* ==========================================================
-   #LezaDeFiesta - Identidad Rioja Alavesa (Vino & Piedra)
+   #LezaDeFiesta - Estilos Modernos y Paletas Intercambiables
    ========================================================== */
 
+/* Variables por Defecto (Tema Morado) */
 :root {
-  /* Paleta noble */
-  --bg-deep: #14080e;          /* Sombra de bodega oscura */
-  --bg-panel: #200f17;         /* Roble y tinto profundo */
-  --wine-dark: #4a1220;        /* Vino reposado */
-  --wine-main: #7a1d33;        /* Tinto tempranillo */
-  --wine-bright: #a82d49;      /* Grana vivo */
+  --bg: #0b0d14;
+  --panel: #151824;
+  --panel-card: rgba(23, 27, 40, 0.9);
+  --border: #23283b;
+  --text: #f8fafc;
+  --text-muted: #8e97af;
   
-  --sandstone: #d8c29d;        /* Piedra de sillería alavesa */
-  --gold-accent: #cfa858;      /* Dorado de retablo de San Martín */
-  --stone-border: #3b222d;     /* Juntas de piedra tallada */
-  
-  --text-main: #f5eedc;        /* Blanco cálido pergamino */
-  --text-muted: #ab9b94;       /* Tono piedra grisácea */
-  --danger-ember: #b83227;     /* Brasa de sarmiento */
+  --primary: #9333ea;
+  --primary-glow: rgba(147, 51, 234, 0.35);
+  --accent: #c084fc;
+}
+
+/* Paleta: Azul Eléctrico */
+body[data-theme="blue"] {
+  --primary: #2563eb;
+  --primary-glow: rgba(37, 99, 235, 0.35);
+  --accent: #60a5fa;
+}
+
+/* Paleta: Verde Esmeralda */
+body[data-theme="emerald"] {
+  --primary: #059669;
+  --primary-glow: rgba(5, 150, 105, 0.35);
+  --accent: #34d399;
+}
+
+/* Paleta: Ámbar Dorado */
+body[data-theme="amber"] {
+  --primary: #d97706;
+  --primary-glow: rgba(217, 119, 6, 0.35);
+  --accent: #fbbf24;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: var(--bg-deep);
-  background-image: 
-    radial-gradient(ellipse at top right, rgba(122, 29, 51, 0.22) 0%, transparent 60%),
-    radial-gradient(ellipse at bottom left, rgba(207, 168, 88, 0.08) 0%, transparent 60%);
-  color: var(--text-main);
+  background-color: var(--bg);
+  color: var(--text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  transition: background-color 0.3s;
 }
 
-/* Pantalla de Carga */
+/* Splash Screen */
 #splash-screen {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, #240f1a 0%, #0d0408 100%);
+  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,109 +68,122 @@ body {
   transition: opacity 0.5s ease, visibility 0.5s;
 }
 
-.splash-card {
+.splash-box {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px;
+  gap: 12px;
 }
 
-.splash-church-icon {
-  width: 90px;
-  height: 90px;
-  margin-bottom: 12px;
+.splash-icon {
+  font-size: 3rem;
+  animation: bounce 1s infinite alternate;
 }
 
-.heritage-svg {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 4px 14px rgba(207, 168, 88, 0.3));
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
 }
 
 .splash-title {
-  font-size: 2.1rem;
+  font-size: 2rem;
   font-weight: 900;
-  color: var(--sandstone);
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+  color: #fff;
 }
 
-.splash-sub {
-  font-size: 0.82rem;
+.splash-subtitle {
+  font-size: 0.85rem;
   color: var(--text-muted);
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-bottom: 26px;
+  margin-bottom: 20px;
 }
 
-.wine-loader {
-  width: 160px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+.loader-line {
+  width: 170px;
+  height: 5px;
+  background: var(--border);
+  border-radius: 10px;
   overflow: hidden;
 }
 
-.wine-fill {
+.loader-track {
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, var(--gold-accent), var(--wine-bright));
-  animation: loadWine 1.6s ease forwards;
+  background: var(--primary);
+  animation: loadAnim 1.5s ease forwards;
 }
 
-@keyframes loadWine {
+@keyframes loadAnim {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(0); }
 }
 
-/* Cabecera */
+/* Header */
 header {
-  padding: 12px 18px;
+  padding: 14px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(20, 8, 14, 0.85);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--stone-border);
+  background: rgba(13, 15, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   cursor: pointer;
 }
 
-.brand-crest {
-  font-size: 1.4rem;
+.brand-name {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #fff;
 }
 
-.brand-names {
+.top-controls {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
-.brand-hashtag {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--sandstone);
-  line-height: 1.1;
-}
-
-.brand-loc {
-  font-size: 0.65rem;
-  color: var(--gold-accent);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.btn-top-players {
-  background: var(--bg-panel);
-  border: 1px solid var(--stone-border);
-  color: var(--sandstone);
-  padding: 6px 12px;
+/* Paleta de Colores en Cabecera */
+.theme-palette {
+  display: flex;
+  gap: 6px;
+  background: var(--panel);
+  padding: 4px 6px;
   border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.theme-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.theme-dot.active {
+  transform: scale(1.25);
+  outline: 2px solid #fff;
+}
+
+.dot-purple { background: #9333ea; }
+.dot-blue { background: #2563eb; }
+.dot-emerald { background: #059669; }
+.dot-amber { background: #d97706; }
+
+.btn-players-counter {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 16px;
   font-size: 0.8rem;
   font-weight: 700;
   display: flex;
@@ -163,13 +192,13 @@ header {
   cursor: pointer;
 }
 
-/* Contenedor de Pantallas */
+/* Área Central */
 main {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 16px 16px 84px;
-  max-width: 500px;
+  max-width: 480px;
   width: 100%;
   margin: 0 auto;
 }
@@ -179,7 +208,7 @@ main {
   width: 100%;
   flex-direction: column;
   gap: 18px;
-  animation: fadeIn 0.25s ease-out;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .screen.active {
@@ -191,19 +220,15 @@ main {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Menú Principal (Lobby) */
-.welcome-box {
-  padding: 6px 4px;
-}
-
-.welcome-box h2 {
+/* Menú Principal */
+.greeting-box h2 {
   font-size: 1.35rem;
   font-weight: 800;
-  color: var(--sandstone);
+  color: #fff;
   margin-bottom: 4px;
 }
 
-.welcome-box p {
+.greeting-box p {
   font-size: 0.82rem;
   color: var(--text-muted);
 }
@@ -215,177 +240,170 @@ main {
 }
 
 .mode-card {
-  background: var(--bg-panel);
-  border: 1px solid var(--stone-border);
-  border-radius: 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
   padding: 14px;
   display: flex;
   align-items: center;
   gap: 14px;
   cursor: pointer;
-  transition: transform 0.12s, border-color 0.2s, background-color 0.2s;
+  transition: transform 0.1s, border-color 0.2s;
 }
 
 .mode-card:active {
   transform: scale(0.98);
-  background: #2a1420;
-  border-color: var(--gold-accent);
+  border-color: var(--primary);
 }
 
-.mode-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(122, 29, 51, 0.35);
-  border: 1px solid rgba(207, 168, 88, 0.2);
+.mode-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   flex-shrink: 0;
 }
 
-.mode-info h3 {
+.mode-details h3 {
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text-main);
+  color: #fff;
   margin-bottom: 2px;
 }
 
-.mode-info p {
+.mode-details p {
   font-size: 0.76rem;
   color: var(--text-muted);
   line-height: 1.25;
 }
 
-/* Panel de Jugadores en Home */
-.home-players-card {
-  background: rgba(32, 15, 23, 0.7);
-  border: 1px dashed var(--stone-border);
-  border-radius: 16px;
+/* Caja de Participantes */
+.home-participants-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
   padding: 16px;
 }
 
-.home-players-header {
+.participants-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 12px;
 }
 
-.home-players-header h4 {
+.participants-head h4 {
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--sandstone);
+  color: #fff;
 }
 
 .subtext {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   display: block;
 }
 
-.counter-pill {
+.counter-badge {
   font-size: 0.72rem;
   padding: 3px 8px;
-  background: rgba(207, 168, 88, 0.15);
-  color: var(--gold-accent);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 10px;
+  color: var(--accent);
   font-weight: 700;
 }
 
-.home-player-form {
+.player-form-row {
   display: flex;
   gap: 8px;
   margin-bottom: 12px;
 }
 
-.home-player-form input,
-.modal-form-row input {
+.player-form-row input {
   flex: 1;
-  background: var(--bg-deep);
-  border: 1px solid var(--stone-border);
-  border-radius: 10px;
-  padding: 9px 12px;
-  color: var(--text-main);
-  font-size: 0.85rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 0.88rem;
   outline: none;
 }
 
-.home-player-form button,
-.modal-form-row button {
-  background: var(--wine-main);
-  border: 1px solid rgba(207, 168, 88, 0.3);
-  color: var(--sandstone);
+.player-form-row button {
+  background: var(--primary);
+  border: none;
+  color: #fff;
   padding: 0 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 700;
-  font-size: 0.85rem;
   cursor: pointer;
+  transition: opacity 0.15s;
 }
 
-.home-chips-container,
-.modal-chips-list {
+.chips-container {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  max-height: 120px;
+  max-height: 130px;
   overflow-y: auto;
 }
 
 .player-chip {
-  background: #2b1521;
-  border: 1px solid var(--stone-border);
-  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
   border-radius: 20px;
-  font-size: 0.78rem;
-  color: var(--text-main);
+  font-size: 0.8rem;
+  color: #fff;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .player-chip button {
   background: none;
   border: none;
-  color: var(--danger-ember);
+  color: #f87171;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.85rem;
 }
 
-/* Barra de Niveles (Estilo Barrica / Añada) */
-.vintage-level-bar {
+/* Barra de Niveles */
+.intensity-bar {
   display: flex;
   gap: 6px;
-  background: var(--bg-panel);
+  background: var(--panel);
   padding: 4px;
-  border-radius: 12px;
-  border: 1px solid var(--stone-border);
+  border-radius: 14px;
+  border: 1px solid var(--border);
 }
 
-.btn-vintage-level {
+.btn-level {
   flex: 1;
   background: none;
   border: none;
   color: var(--text-muted);
-  padding: 8px 4px;
-  border-radius: 8px;
-  font-size: 0.72rem;
+  padding: 9px 4px;
+  border-radius: 10px;
+  font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.btn-vintage-level.active {
-  background: var(--wine-dark);
-  color: var(--sandstone);
-  border: 1px solid rgba(207, 168, 88, 0.4);
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+.btn-level.active {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px var(--primary-glow);
 }
 
-/* Área de Juego Activo */
-.game-play-area {
+/* Layout de Juego Activo */
+.play-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -393,44 +411,38 @@ main {
   width: 100%;
 }
 
-.wine-card {
+.game-card {
   width: 100%;
   min-height: 290px;
-  background: linear-gradient(180deg, #24111c 0%, #1a0a13 100%);
-  border: 2px solid var(--stone-border);
-  border-radius: 24px;
-  padding: 24px 20px;
+  background: var(--panel-card);
+  backdrop-filter: blur(14px);
+  border: 2px solid var(--border);
+  border-radius: 26px;
+  padding: 26px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 16px 36px -10px var(--primary-glow);
   cursor: pointer;
-  position: relative;
-  transition: transform 0.12s, border-color 0.3s;
+  transition: transform 0.12s, border-color 0.25s;
 }
 
-.wine-card:active {
+.game-card:active {
   transform: scale(0.98);
 }
 
-.card-ornament {
-  color: var(--gold-accent);
-  opacity: 0.5;
-  font-size: 0.7rem;
-}
-
-.wine-badge {
-  font-size: 0.7rem;
+.card-badge {
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--sandstone);
-  padding: 4px 12px;
-  background: rgba(122, 29, 51, 0.4);
-  border: 1px solid rgba(207, 168, 88, 0.3);
+  color: var(--accent);
+  padding: 5px 14px;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 20px;
+  border: 1px solid var(--border);
 }
 
 .card-text-wrapper {
@@ -438,35 +450,26 @@ main {
 }
 
 .question-prefix {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--gold-accent);
-  margin-bottom: 8px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
 }
 
 .question-text {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 800;
   line-height: 1.4;
-  color: var(--text-main);
+  color: #fff;
 }
 
-.instruction-note {
-  font-size: 0.75rem;
+.card-rule {
+  font-size: 0.78rem;
   color: var(--text-muted);
 }
 
-/* Modos específicos */
-.roulette-theme {
-  border-color: rgba(207, 168, 88, 0.4);
-}
-
-.badge-gold {
-  background: rgba(207, 168, 88, 0.2);
-  color: var(--gold-accent);
-}
-
-.victim-label {
+/* Elementos de Ruleta y Bomba */
+.sub-label {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -474,72 +477,57 @@ main {
   display: block;
 }
 
-.victim-name {
+.victim-display {
   font-size: 1.6rem;
   font-weight: 900;
-  color: var(--sandstone);
+  color: var(--accent);
   margin: 4px 0 10px;
   text-transform: uppercase;
 }
 
-.bomb-theme {
-  border-color: rgba(184, 50, 39, 0.4);
-}
-
-.barrel-visual {
-  font-size: 3.2rem;
+.bomb-icon {
+  font-size: 3.4rem;
   transition: transform 0.2s;
 }
 
-.barrel-visual.shaking {
-  animation: barrelShake 0.15s infinite alternate;
+.bomb-icon.shaking {
+  animation: bombShake 0.12s infinite alternate;
 }
 
-@keyframes barrelShake {
-  from { transform: rotate(-6deg) scale(1.1); }
-  to { transform: rotate(6deg) scale(1.15); }
+@keyframes bombShake {
+  from { transform: rotate(-8deg) scale(1.1); }
+  to { transform: rotate(8deg) scale(1.2); }
 }
 
-/* Botones principales de madera */
-.btn-wood-action {
+/* Botón de Acción Principal */
+.btn-main-action {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(180deg, var(--wine-bright) 0%, var(--wine-main) 100%);
-  color: var(--sandstone);
-  border: 1px solid rgba(207, 168, 88, 0.3);
-  border-radius: 16px;
-  font-size: 0.95rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  font-size: 1rem;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(122, 29, 51, 0.4);
+  box-shadow: 0 8px 24px -5px var(--primary-glow);
   transition: transform 0.12s;
 }
 
-.btn-wood-action:active {
+.btn-main-action:active {
   transform: scale(0.98);
 }
 
-.btn-gold {
-  background: linear-gradient(180deg, #bfa052 0%, #8c7130 100%);
-  color: #1a0a13;
-  box-shadow: 0 6px 18px rgba(191, 160, 82, 0.3);
-}
-
-.btn-ember {
-  background: linear-gradient(180deg, #c0392b 0%, #96281b 100%);
-  box-shadow: 0 6px 18px rgba(192, 57, 43, 0.3);
-}
-
-/* Barra de Navegación Inferior (Piedra Noble) */
-.stone-nav {
+/* Barra Inferior */
+.bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 64px;
-  background: rgba(16, 7, 12, 0.95);
+  background: rgba(13, 15, 23, 0.95);
   backdrop-filter: blur(14px);
-  border-top: 1px solid var(--stone-border);
+  border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -547,7 +535,7 @@ main {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-.stone-item {
+.nav-button {
   background: none;
   border: none;
   color: var(--text-muted);
@@ -560,26 +548,21 @@ main {
   transition: color 0.15s;
 }
 
-.stone-item.active {
-  color: var(--sandstone);
+.nav-button.active {
+  color: var(--accent);
 }
 
-.stone-item.active .s-icon {
-  transform: translateY(-2px);
+.b-icon {
+  font-size: 1.2rem;
 }
 
-.s-icon {
-  font-size: 1.15rem;
-  transition: transform 0.15s;
-}
-
-.s-label {
-  font-size: 0.65rem;
+.b-label {
+  font-size: 0.68rem;
   font-weight: 700;
 }
 
-/* Modal Cuadrilla */
-.modal-backdrop {
+/* Modal */
+.modal-wrapper {
   display: none;
   position: fixed;
   inset: 0;
@@ -591,39 +574,32 @@ main {
   z-index: 1000;
 }
 
-.wood-modal {
+.modal-card {
   width: 100%;
   max-width: 350px;
-  background: var(--bg-panel);
-  border: 1px solid var(--stone-border);
-  border-radius: 20px;
-  padding: 18px;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 20px;
 }
 
-.modal-header-styled {
+.modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
-.modal-header-styled h3 {
+.modal-header h3 {
   font-size: 1rem;
-  color: var(--sandstone);
+  color: #fff;
   font-weight: 800;
 }
 
-.btn-close-wood {
+.btn-close-modal {
   background: none;
   border: none;
   color: var(--text-muted);
   font-size: 1.1rem;
   cursor: pointer;
-}
-
-.modal-form-row {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 12px;
 }
