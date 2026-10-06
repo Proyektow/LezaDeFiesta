@@ -1,6 +1,10 @@
 /* ==========================================================
-   #LezaDeFiesta - Código Completo con Frases 100% Reales
+   #LezaDeFiesta - Código Completo con Frases Reales y Novedades
    ========================================================== */
+
+// Cambia este número de versión cada vez que quieras que el cartel
+// de actualizaciones vuelva a mostrarse automáticamente a todo el mundo
+const APP_VERSION = "2.0";
 
 // --- 1. SINTETIZADOR DE AUDIO WEB ---
 const SoundEngine = {
@@ -65,7 +69,7 @@ function triggerHaptic() {
   if ('vibrate' in navigator) navigator.vibrate(30);
 }
 
-// --- 2. BANCO DE DATOS REAL (+100 frases únicas por modo) ---
+// --- 2. BANCO DE DATOS REAL (100 frases exactas por modo) ---
 const DB = {
   sips: ["1 Trago", "2 Tragos", "¡Chupito!", "Manda 2 Tragos", "1 Trago", "2 Tragos", "Trago Doble", "Manda 1 Trago"],
 
@@ -111,7 +115,7 @@ const DB = {
       "Yo nunca he salido de casa con la ropa del revés o con una etiqueta colgando.",
       "Yo nunca he hecho una captura de pantalla y se la he enviado por error a esa misma persona.",
       "Yo nunca he tirado comida disimuladamente a una servilleta para no comérmela.",
-      "Yo nunca he bailado delante del espejo creyéndome una estrella de videoclip.",
+      "Yo nunca he bailado delante del espejo creyendo que era una estrella de videoclip.",
       "Yo nunca he buscado mi propio nombre en Google para ver qué salía.",
       "Yo nunca he entrado al baño equivocado por despiste total.",
       "Yo nunca he fingido entender un chiste del que no me he enterado de nada.",
@@ -899,6 +903,12 @@ const curseModal = document.getElementById('curseModal');
 const curseDescText = document.getElementById('curseDescText');
 const btnCloseCurseModal = document.getElementById('btnCloseCurseModal');
 
+// Novedades DOM
+const newsModal = document.getElementById('newsModal');
+const btnOpenNews = document.getElementById('btnOpenNews');
+const btnCloseNewsX = document.getElementById('btnCloseNewsX');
+const btnDismissNewsForever = document.getElementById('btnDismissNewsForever');
+
 // --- 5. SWIPE GESTURES ---
 let startX = 0, currentX = 0, isDragging = false;
 
@@ -1298,7 +1308,30 @@ document.getElementById('btnCloseModal').addEventListener('click', () => {
   document.getElementById('playersModal').style.display = 'none';
 });
 
-// --- 9. BOTÓN NATIVO PWA & OFFLINE ---
+// --- 9. NOVEDADES / ACTUALIZACIONES ---
+function checkNewsUpdate() {
+  const lastSeen = localStorage.getItem('leza_news_seen_version');
+  if (lastSeen !== APP_VERSION) {
+    newsModal.style.display = 'flex';
+  }
+}
+
+btnOpenNews.addEventListener('click', () => {
+  triggerHaptic();
+  newsModal.style.display = 'flex';
+});
+
+btnCloseNewsX.addEventListener('click', () => {
+  newsModal.style.display = 'none';
+});
+
+btnDismissNewsForever.addEventListener('click', () => {
+  triggerHaptic();
+  localStorage.setItem('leza_news_seen_version', APP_VERSION);
+  newsModal.style.display = 'none';
+});
+
+// --- 10. BOTÓN NATIVO PWA & OFFLINE ---
 let deferredPrompt = null;
 
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -1333,6 +1366,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setTimeout(() => {
     splashScreen.style.opacity = '0';
-    setTimeout(() => splashScreen.style.visibility = 'hidden', 500);
+    setTimeout(() => {
+      splashScreen.style.visibility = 'hidden';
+      checkNewsUpdate();
+    }, 500);
   }, 1400);
 });
