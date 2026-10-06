@@ -1,5 +1,5 @@
 /* ==========================================================
-   #LezaDeFiesta - Estilos Globales, Animaciones y PWA
+   #LezaDeFiesta - Estilos Globales, Temas y Novedades
    ========================================================== */
 
 :root {
@@ -143,6 +143,24 @@ header {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Botón Novedades */
+.btn-news-icon {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  padding: 6px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+}
+
+.btn-news-icon:active {
+  transform: scale(0.9);
 }
 
 .btn-install {
@@ -292,7 +310,7 @@ main {
   color: var(--text-muted);
 }
 
-/* Caja de Participantes */
+/* Participantes */
 .home-participants-box {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -411,7 +429,7 @@ main {
   box-shadow: 0 2px 8px var(--primary-glow);
 }
 
-/* Swiper Container & Card */
+/* Swipe & Cards */
 .play-layout {
   display: flex;
   flex-direction: column;
@@ -587,7 +605,7 @@ main {
   color: var(--text-muted);
 }
 
-/* Mímica fases */
+/* Mímica pasos */
 .mimica-step {
   display: flex;
   flex-direction: column;
@@ -833,4 +851,53 @@ main {
   color: #fff;
   margin: 14px 0;
   line-height: 1.3;
+}
+
+/* Novedades / Actualizaciones Modal */
+.news-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+  max-height: 260px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.news-item {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 12px;
+  border-radius: 12px;
+  border-left: 3px solid var(--primary);
+}
+
+.news-item strong {
+  color: #fff;
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.85rem;
+}
+
+.news-footer {
+  margin-top: 10px;
+}
+
+.btn-news-ok {
+  width: 100%;
+  padding: 13px;
+  background: var(--primary);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--primary-glow);
+}
+
+.btn-news-ok:active {
+  transform: scale(0.98);
 }
